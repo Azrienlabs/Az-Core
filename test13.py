@@ -7,7 +7,7 @@ for selecting and using different agent patterns dynamically.
 
 import os
 from langchain_openai import ChatOpenAI
-from rise_framework.agents.agent_pattern_router import AgentPatternRouter, create_agent
+from arc.agents.agent_pattern_router import AgentPatternRouter, create_agent
 
 
 def test_self_consistency_pattern():

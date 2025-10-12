@@ -1,5 +1,5 @@
 """
-Setup configuration for Rise Framework.
+Setup configuration for Arc Framework.
 """
 
 from setuptools import setup, find_packages
@@ -19,7 +19,7 @@ if requirements_file.exists():
 setup(
     name="rise-framework",
     version="2.0.0",
-    author="Rise Framework Team",
+    author="Arc Framework Team",
     author_email="your.email@example.com",
     description="A professional hierarchical multi-agent framework built on LangGraph",
     long_description=long_description,
@@ -54,12 +54,12 @@ setup(
     },
     entry_points={
         "console_scripts": [
-            "rise-framework=rise_framework.cli:main",
+            "rise-framework=arc.cli:main",
         ],
     },
     include_package_data=True,
     package_data={
-        "rise_framework": ["py.typed"],
+        "arc": ["py.typed"],
     },
     zip_safe=False,
     keywords="langchain langgraph multi-agent agents ai framework",

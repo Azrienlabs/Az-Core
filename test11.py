@@ -7,7 +7,7 @@ responses through self-reflection, evaluation, and refinement.
 
 import os
 from langchain_openai import ChatOpenAI
-from rise_framework.agents import ReflexionAgent
+from arc.agents import ReflexionAgent
 
 
 def test_basic_reflexion():

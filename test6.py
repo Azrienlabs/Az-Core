@@ -5,12 +5,12 @@ This shows the simplest way to use MCPTeamBuilder,
 compared directly with your original code pattern.
 """
 
-from rise_framework.config import load_config
-from rise_framework.agents.mcp_team_builder import MCPTeamBuilder
-from rise_framework.core.orchestrator import GraphOrchestrator
-from rise_framework.core.supervisor import MainSupervisor
-from rise_framework.nodes import ResponseGeneratorNode, PlannerNode, CoordinatorNode
-from rise_framework.utils.visualization import GraphVisualizer, visualize_orchestrator
+from arc.config import load_config
+from arc.agents.mcp_team_builder import MCPTeamBuilder
+from arc.core.orchestrator import GraphOrchestrator
+from arc.core.supervisor import MainSupervisor
+from arc.nodes import ResponseGeneratorNode, PlannerNode, CoordinatorNode
+from arc.utils.visualization import GraphVisualizer, visualize_orchestrator
 import logging
 from dotenv import load_dotenv
 

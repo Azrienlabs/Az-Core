@@ -7,7 +7,7 @@ one for explicit reasoning and one for generating the final answer.
 
 import os
 from langchain_openai import ChatOpenAI
-from rise_framework.agents import ReasoningDuoAgent
+from arc.agents import ReasoningDuoAgent
 
 
 def test_basic_reasoning():

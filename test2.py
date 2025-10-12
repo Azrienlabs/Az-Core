@@ -2,7 +2,7 @@
 Comprehensive Test: Using RL with GraphOrchestrator's build_hierarchical_graph
 
 This test demonstrates how to integrate Reinforcement Learning (RL) into
-a hierarchical agent graph using the Rise Framework.
+a hierarchical agent graph using the Arc Framework.
 
 Key Components:
 1. RLManager - Q-learning based tool selection
@@ -10,22 +10,22 @@ Key Components:
 3. RL-enabled agents - Agents that learn optimal tool usage
 4. Hierarchical graph - Coordinator → Planner → Supervisor → Teams → Generator
 
-Author: Rise Framework
+Author: Arc Framework
 Date: 2025
 """
 
-from rise_framework.config import load_config
-from rise_framework.agents import AgentFactory
-from rise_framework.agents.react_agent import ReactAgent
-from rise_framework.core.orchestrator import GraphOrchestrator
-from rise_framework.core.supervisor import MainSupervisor
-from rise_framework.core.base import BaseTeam
-from rise_framework.nodes import ResponseGeneratorNode, PlannerNode, CoordinatorNode
-from rise_framework.rl import RLManager, HeuristicRewardCalculator
+from arc.config import load_config
+from arc.agents import AgentFactory
+from arc.agents.react_agent import ReactAgent
+from arc.core.orchestrator import GraphOrchestrator
+from arc.core.supervisor import MainSupervisor
+from arc.core.base import BaseTeam
+from arc.nodes import ResponseGeneratorNode, PlannerNode, CoordinatorNode
+from arc.rl import RLManager, HeuristicRewardCalculator
 from langchain_core.tools import tool
 from langchain_core.messages import HumanMessage
 from langgraph.types import Command
-from rise_framework.core.state import State
+from arc.core.state import State
 import logging
 from dotenv import load_dotenv
 
@@ -525,7 +525,7 @@ def main():
     """
     
     logger.info("=" * 80)
-    logger.info("Rise Framework - RL with GraphOrchestrator Test")
+    logger.info("Arc Framework - RL with GraphOrchestrator Test")
     logger.info("=" * 80)
     
     try:

@@ -2,7 +2,7 @@
 MCP Integration Test: Using MCPTeamBuilder with MainSupervisor
 
 This demonstrates how to integrate Model Context Protocol (MCP) servers
-with the Rise Framework using the new MCPTeamBuilder class.
+with the Arc Framework using the new MCPTeamBuilder class.
 
 Features Demonstrated:
 - Connecting to MCP servers
@@ -11,17 +11,17 @@ Features Demonstrated:
 - Optional RL for MCP tool selection
 - Hierarchical graph with MCP-enabled teams
 
-Author: Rise Framework
+Author: Arc Framework
 Date: 2025
 """
 
-from rise_framework.config import load_config
-from rise_framework.agents.mcp_team_builder import MCPTeamBuilder
-from rise_framework.agents.team_builder import TeamBuilder
-from rise_framework.core.orchestrator import GraphOrchestrator
-from rise_framework.core.supervisor import MainSupervisor
-from rise_framework.nodes import ResponseGeneratorNode, PlannerNode, CoordinatorNode
-from rise_framework.rl import RLManager, HeuristicRewardCalculator
+from arc.config import load_config
+from arc.agents.mcp_team_builder import MCPTeamBuilder
+from arc.agents.team_builder import TeamBuilder
+from arc.core.orchestrator import GraphOrchestrator
+from arc.core.supervisor import MainSupervisor
+from arc.nodes import ResponseGeneratorNode, PlannerNode, CoordinatorNode
+from arc.rl import RLManager, HeuristicRewardCalculator
 from langchain_core.tools import tool
 import logging
 from dotenv import load_dotenv
@@ -495,7 +495,7 @@ def print_mcp_setup_guide():
             return f"Processed: {param}"
     
     
-    🚀 USING MCP WITH RISE FRAMEWORK:
+    🚀 USING MCP WITH Arc Framework:
     ---------------------------------
     
     # Basic MCP Team

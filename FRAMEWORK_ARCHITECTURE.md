@@ -1,8 +1,8 @@
-# Rise Framework - Complete Architecture Documentation
+# Arc Framework - Complete Architecture Documentation
 
 ## Overview
 
-The Rise Framework is a sophisticated multi-agent orchestration system built on LangGraph, featuring:
+The Arc Framework is a sophisticated multi-agent orchestration system built on LangGraph, featuring:
 - **Hierarchical Agent Teams** with specialized roles
 - **Reinforcement Learning** (Q-learning) for intelligent tool selection
 - **Model Context Protocol (MCP)** integration for external tool servers
@@ -760,7 +760,7 @@ graph LR
 
 ```mermaid
 graph TB
-    subgraph "rise_framework Package"
+    subgraph "arc Package"
         subgraph "core/"
             BASE_PY[base.py<br/>BaseNode, BaseAgent, BaseTeam]
             STATE_PY[state.py<br/>State TypedDict]
@@ -883,7 +883,7 @@ graph TB
 
 ## Summary
 
-The Rise Framework provides a comprehensive, production-ready system for building sophisticated multi-agent applications with:
+The Arc Framework provides a comprehensive, production-ready system for building sophisticated multi-agent applications with:
 
 1. **Modular Architecture**: Clean separation of concerns across layers
 2. **Intelligent Optimization**: RL-based tool selection with Q-learning

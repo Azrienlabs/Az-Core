@@ -1,8 +1,8 @@
-from rise_framework.config import load_config
-from rise_framework.agents.team_builder import TeamBuilder
-from rise_framework.core.orchestrator import GraphOrchestrator
-from rise_framework.core.supervisor import MainSupervisor
-from rise_framework.nodes import ResponseGeneratorNode, PlannerNode, CoordinatorNode
+from arc.config import load_config
+from arc.agents.team_builder import TeamBuilder
+from arc.core.orchestrator import GraphOrchestrator
+from arc.core.supervisor import MainSupervisor
+from arc.nodes import ResponseGeneratorNode, PlannerNode, CoordinatorNode
 from langchain_core.tools import tool
 import logging
 from dotenv import load_dotenv

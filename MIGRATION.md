@@ -1,8 +1,8 @@
-# Rise Framework v2.0 - Migration Guide
+# Arc Framework v2.0 - Migration Guide
 
 ## Overview
 
-This document guides you through migrating from the old framework structure to the new Rise Framework v2.0.
+This document guides you through migrating from the old framework structure to the new Arc Framework v2.0.
 
 ## What's New
 
@@ -73,13 +73,13 @@ from utils import State, llm
 
 **New:**
 ```python
-from rise_framework import (
+from arc import (
     Supervisor,
     TeamBuilder,
     Config,
     GraphOrchestrator,
 )
-from rise_framework.core import State
+from arc.core import State
 
 # Load config
 config = Config.from_yaml("config.yml")
@@ -137,7 +137,7 @@ graph = builder.compile()
 
 **New:**
 ```python
-from rise_framework import GraphOrchestrator
+from arc import GraphOrchestrator
 
 orchestrator = GraphOrchestrator()
 orchestrator.add_node("coordinator", coordinator)
@@ -160,7 +160,7 @@ def coordinator(state: State) -> Command:
 
 **New:**
 ```python
-from rise_framework.nodes import CoordinatorNode
+from arc.nodes import CoordinatorNode
 
 coordinator = CoordinatorNode(
     llm=coordinator_llm,
@@ -183,7 +183,7 @@ llm = ChatOpenAI(model=config['llm']['model'])
 
 **New:**
 ```python
-from rise_framework import Config
+from arc import Config
 
 config = Config.from_yaml("config.yml")
 llm = config.get_llm()
@@ -249,7 +249,7 @@ graph = orchestrator.compile()
 ### 2. Use Pre-Built Nodes
 Leverage the framework's nodes:
 ```python
-from rise_framework.nodes import (
+from arc.nodes import (
     CoordinatorNode,
     PlannerNode,
     ResponseGeneratorNode
@@ -275,7 +275,7 @@ llm = config.get_llm()
 ### 5. Add Logging
 Use the logging utilities:
 ```python
-from rise_framework.utils import setup_logging
+from arc.utils import setup_logging
 
 setup_logging(level="INFO", log_file="app.log")
 ```
@@ -296,7 +296,7 @@ team1 = TeamBuilder(name="team1", llm=llm, tools=tools, prompt=prompt)
 
 **After:**
 ```python
-from rise_framework import (
+from arc import (
     Config,
     GraphOrchestrator,
     Supervisor,
@@ -326,4 +326,4 @@ For questions or issues:
 
 ---
 
-Welcome to Rise Framework v2.0! 🚀
+Welcome to Arc Framework v2.0! 🚀

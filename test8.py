@@ -11,15 +11,15 @@ This example shows how to:
 from langchain_openai import ChatOpenAI
 from langchain_core.tools import tool
 
-from rise_framework.core.orchestrator import GraphOrchestrator
-from rise_framework.agents.team_builder import TeamBuilder
-from rise_framework.rl.rl_manager import RLManager
-from rise_framework.rl.rewards import HeuristicRewardCalculator
-from rise_framework.agents.self_consistency_agent import SelfConsistencyAgent
-from rise_framework.agents.reflexion_agent import ReflexionAgent
-from rise_framework.agents.reasoning_duo_agent import ReasoningDuoAgent
-from rise_framework.agents.agent_judge import AgentJudge
-from rise_framework.agents.agent_pattern_router import AgentPatternRouter
+from arc.core.orchestrator import GraphOrchestrator
+from arc.agents.team_builder import TeamBuilder
+from arc.rl.rl_manager import RLManager
+from arc.rl.rewards import HeuristicRewardCalculator
+from arc.agents.self_consistency_agent import SelfConsistencyAgent
+from arc.agents.reflexion_agent import ReflexionAgent
+from arc.agents.reasoning_duo_agent import ReasoningDuoAgent
+from arc.agents.agent_judge import AgentJudge
+from arc.agents.agent_pattern_router import AgentPatternRouter
 
 from dotenv import load_dotenv
 
@@ -387,7 +387,7 @@ if __name__ == "__main__":
     print("=" * 80)
     print("RL-ENABLED AGENT PATTERNS DEMONSTRATION")
     print("=" * 80)
-    print("\nThis demo shows how to use RL with agent patterns in the RISE framework.")
+    print("\nThis demo shows how to use RL with agent patterns in the Arc Framework.")
     print("RL enables agents to learn optimal tool selection over time.")
     print("\nRunning examples...\n")
     

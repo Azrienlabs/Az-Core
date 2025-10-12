@@ -7,7 +7,7 @@ pattern for general-purpose agent tasks.
 
 import os
 from langchain_openai import ChatOpenAI
-from rise_framework.agents.agent_factory import ReactAgent
+from arc.agents.agent_factory import ReactAgent
 from langchain_core.tools import tool
 
 

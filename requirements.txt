@@ -1,4 +1,4 @@
-# Rise Framework - Requirements
+# Arc Framework - Requirements
 
 
 langchain>=0.1.0

@@ -7,7 +7,7 @@ independent responses and aggregates them for improved reliability and accuracy.
 
 import os
 from langchain_openai import ChatOpenAI
-from rise_framework.agents import SelfConsistencyAgent
+from arc.agents import SelfConsistencyAgent
 
 
 def test_basic_consensus():

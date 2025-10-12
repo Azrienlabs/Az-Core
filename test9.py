@@ -7,7 +7,7 @@ feedback on agent outputs. Perfect for quality control and validation.
 
 import os
 from langchain_openai import ChatOpenAI
-from rise_framework.agents import AgentJudge
+from arc.agents import AgentJudge
 
 
 def test_basic_evaluation():

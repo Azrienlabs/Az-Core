@@ -1,4 +1,4 @@
-# Rise Framework v2.0 - Architecture Documentation
+# Arc Framework v2.0 - Architecture Documentation
 
 ## System Architecture
 
@@ -6,7 +6,7 @@
 
 ```
 ┌────────────────────────────────────────────────────────────────────┐
-│                         Rise Framework v2.0                         │
+│                         Arc Framework v2.0                         │
 │                   Hierarchical Multi-Agent System                   │
 └────────────────────────────────────────────────────────────────────┘
 
@@ -91,7 +91,7 @@
 ### Core Module Structure
 
 ```
-rise_framework/
+arc/
 │
 ├── core/                          # Core Framework Components
 │   ├── base.py                   # Abstract Base Classes
@@ -370,7 +370,7 @@ rise_framework/
 
 ## Summary
 
-Rise Framework v2.0 provides:
+Arc Framework v2.0 provides:
 
 - **Hierarchical Architecture**: Clear separation of concerns
 - **Modular Design**: Pluggable components
@@ -389,4 +389,4 @@ This architecture supports:
 
 ---
 
-**Rise Framework v2.0** - Professional Hierarchical Multi-Agent System
+**Arc Framework v2.0** - Professional Hierarchical Multi-Agent System

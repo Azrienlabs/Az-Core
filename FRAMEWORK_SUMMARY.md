@@ -1,14 +1,14 @@
-# Rise Framework v2.0 - Framework Summary
+# Arc Framework v2.0 - Framework Summary
 
 ## 🎉 Refactoring Complete!
 
-Your hierarchical agent framework has been completely refactored into a professional, production-ready framework called **Rise Framework v2.0**.
+Your hierarchical agent framework has been completely refactored into a professional, production-ready framework called **Arc Framework v2.0**.
 
 ## 📁 New Structure
 
 ```
 framework/
-├── rise_framework/              # Main framework package
+├── arc/              # Main framework package
 │   ├── __init__.py             # Package exports
 │   ├── core/                   # Core components
 │   │   ├── __init__.py
@@ -132,7 +132,7 @@ python examples/custom_team_example.py
 
 ### 4. Use in Your Code
 ```python
-from rise_framework import (
+from arc import (
     Config,
     GraphOrchestrator,
     Supervisor,
@@ -184,7 +184,7 @@ from rise_framework import (
 Your old files are preserved. To migrate:
 
 1. Review `MIGRATION.md`
-2. Update imports to use `rise_framework`
+2. Update imports to use `arc`
 3. Use new APIs (TeamBuilder, GraphOrchestrator, etc.)
 4. Leverage pre-built nodes
 5. Adopt configuration management
@@ -208,7 +208,7 @@ python -m twine upload dist/*
 Structure ready for tests:
 ```bash
 pytest tests/
-pytest --cov=rise_framework tests/
+pytest --cov=arc tests/
 ```
 
 ## 🎓 Learning Resources
@@ -253,4 +253,4 @@ You now have a professional, production-ready framework that:
 
 ---
 
-**Rise Framework v2.0** - Built with ❤️ using LangChain and LangGraph
+**Arc Framework v2.0** - Built with ❤️ using LangChain and LangGraph

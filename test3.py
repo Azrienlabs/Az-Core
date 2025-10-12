@@ -4,16 +4,16 @@ RL Test: Using TeamBuilder with built-in RL support
 This demonstrates the NEW simplified API where TeamBuilder directly
 supports RL without needing custom wrapper classes.
 
-Author: Rise Framework
+Author: Arc Framework
 Date: 2025
 """
 
-from rise_framework.config import load_config
-from rise_framework.agents.team_builder import TeamBuilder
-from rise_framework.core.orchestrator import GraphOrchestrator
-from rise_framework.core.supervisor import MainSupervisor
-from rise_framework.nodes import ResponseGeneratorNode, PlannerNode, CoordinatorNode
-from rise_framework.rl import RLManager, HeuristicRewardCalculator
+from arc.config import load_config
+from arc.agents.team_builder import TeamBuilder
+from arc.core.orchestrator import GraphOrchestrator
+from arc.core.supervisor import MainSupervisor
+from arc.nodes import ResponseGeneratorNode, PlannerNode, CoordinatorNode
+from arc.rl import RLManager, HeuristicRewardCalculator
 from langchain_core.tools import tool
 import logging
 from dotenv import load_dotenv
