@@ -1,4 +1,4 @@
-﻿# Rise Framework v6 RL MCP cache
+﻿# Arc Framework v6 RL MCP cache
 
 A professional hierarchical multi-agent framework built on LangGraph, designed for building complex AI agent systems with coordinator-planner-supervisor architecture. Now with comprehensive error handling, validation, and safety features!
 
@@ -798,4 +798,5 @@ pytest --cov=rise_framework
  
  #   A g e n t - F r a m e w o r k - v 6 
  
+
  # Arc
