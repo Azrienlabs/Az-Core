@@ -1,0 +1,13 @@
+llm:
+  model: gpt-4o
+  temperature: 0.5
+
+fast_llm:
+  model: gpt-4o
+  temperature: 0.5
+
+coordinator_llm:
+  model: gpt-4o
+  temperature: 0
+
+embedding_model: text-embedding-3-large
