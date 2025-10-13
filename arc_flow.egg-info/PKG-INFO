@@ -1,3 +1,58 @@
+Metadata-Version: 2.1
+Name: arc-flow
+Version: 0.1.1
+Summary: A professional hierarchical multi-agent framework built on python.
+Home-page: https://github.com/pinilDissanayaka/Arc-Framework-v2
+Author: Arc Team
+Author-email: info@azrianlabs.com
+Project-URL: Bug Reports, https://github.com/pinilDissanayaka/Arc-Framework-v2/issues
+Project-URL: Source, https://github.com/pinilDissanayaka/Arc-Framework-v2
+Project-URL: Documentation, https://github.com/pinilDissanayaka/Arc-Framework-v2
+Keywords: Multi-agent agents ai framework hierarchical arc reinforcement-learning
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Libraries :: Application Frameworks
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+Requires-Dist: langchain>=0.1.0
+Requires-Dist: langchain-core>=0.1.0
+Requires-Dist: langchain-openai>=0.0.5
+Requires-Dist: langgraph>=0.0.20
+Requires-Dist: langchain-community>=0.0.20
+Requires-Dist: python-dotenv>=1.0.0
+Requires-Dist: pyyaml>=6.0
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: pydantic-settings>=2.0.0
+Requires-Dist: typing-extensions>=4.0.0
+Requires-Dist: langchain-mcp-adapters>=0.1.0
+Requires-Dist: asyncio>=3.4.3
+Requires-Dist: aiohttp>=3.9.0
+Requires-Dist: pytest>=7.4.0
+Requires-Dist: pytest-asyncio>=0.21.0
+Requires-Dist: pytest-cov>=4.1.0
+Requires-Dist: pytest-mock>=3.11.0
+Requires-Dist: black>=23.0.0
+Requires-Dist: isort>=5.12.0
+Requires-Dist: flake8>=6.0.0
+Requires-Dist: mypy>=1.5.0
+Requires-Dist: sentence-transformers>=2.2.0
+Requires-Dist: torch>=2.0.0
+Requires-Dist: prometheus-client>=0.17.0
+Requires-Dist: opentelemetry-api>=1.20.0
+Requires-Dist: opentelemetry-sdk>=1.20.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.21.0; extra == "dev"
+Requires-Dist: black>=23.0.0; extra == "dev"
+Requires-Dist: flake8>=6.0.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+Provides-Extra: mcp
+Requires-Dist: langchain-mcp-adapters>=0.1.0; extra == "mcp"
+
 ﻿
 ## Arc Flow (arc_flow)
 

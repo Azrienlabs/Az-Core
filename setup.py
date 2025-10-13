@@ -1,5 +1,5 @@
 """
-Setup configuration for Arc Framework.
+Setup configuration for Arc Flow.
 """
 
 from setuptools import setup, find_packages
@@ -17,14 +17,14 @@ if requirements_file.exists():
         requirements = [line.strip() for line in f if line.strip() and not line.startswith("#")]
 
 setup(
-    name="rise-framework",
-    version="2.0.0",
-    author="Arc Framework Team",
-    author_email="your.email@example.com",
-    description="A professional hierarchical multi-agent framework built on LangGraph",
+    name="arc-flow",
+    version="0.1.1",
+    author="Arc Team",
+    author_email="info@azrianlabs.com",
+    description="A professional hierarchical multi-agent framework built on python.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/pinilDissanayaka/Rise-Framework-v2",
+    url="https://github.com/pinilDissanayaka/Arc-Framework-v2",
     packages=find_packages(exclude=["tests", "tests.*", "examples", "examples.*"]),
     classifiers=[
         "Development Status :: 4 - Beta",
@@ -32,12 +32,9 @@ setup(
         "Topic :: Software Development :: Libraries :: Application Frameworks",
         "Topic :: Scientific/Engineering :: Artificial Intelligence",
         "License :: OSI Approved :: MIT License",
-        "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.10",
-        "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
     ],
-    python_requires=">=3.10",
+    python_requires=">=3.12",
     install_requires=requirements,
     extras_require={
         "dev": [
@@ -54,7 +51,7 @@ setup(
     },
     entry_points={
         "console_scripts": [
-            "rise-framework=arc.cli:main",
+            "arc-framework=arc_flow.cli:main",
         ],
     },
     include_package_data=True,
@@ -62,10 +59,10 @@ setup(
         "arc": ["py.typed"],
     },
     zip_safe=False,
-    keywords="langchain langgraph multi-agent agents ai framework",
+    keywords="Multi-agent agents ai framework hierarchical arc reinforcement-learning",
     project_urls={
-        "Bug Reports": "https://github.com/pinilDissanayaka/Rise-Framework-v2/issues",
-        "Source": "https://github.com/pinilDissanayaka/Rise-Framework-v2",
-        "Documentation": "https://github.com/pinilDissanayaka/Rise-Framework-v2",
+        "Bug Reports": "https://github.com/pinilDissanayaka/Arc-Framework-v2/issues",
+        "Source": "https://github.com/pinilDissanayaka/Arc-Framework-v2",
+        "Documentation": "https://github.com/pinilDissanayaka/Arc-Framework-v2",
     },
 )
