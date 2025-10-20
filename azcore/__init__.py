@@ -10,6 +10,10 @@ Author: Arc  Team
 License: MIT
 """
 
+# Suppress LangGraph deprecation warnings (internal library warnings)
+import warnings
+warnings.filterwarnings('ignore', category=DeprecationWarning, module='langgraph')
+
 __version__ = "0.0.2"
 __author__ = "Arc Team"
 

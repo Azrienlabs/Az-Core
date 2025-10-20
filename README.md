@@ -1,8 +1,8 @@
-﻿# 🌟 Arc Framework
+﻿# 🌟 azcore Framework
 
-> **Arc** - A professional hierarchical multi-agent framework built on Python
+> **azcore** - A professional hierarchical multi-agent framework built on Python
 
-To help you ship Arc-powered apps to production faster, check out our comprehensive agent orchestration and workflow management capabilities.
+To help you ship azcore-powered apps to production faster, check out our comprehensive agent orchestration and workflow management capabilities.
 
 ## Quick Install
 
@@ -12,15 +12,15 @@ pip install azcore
 
 ## 🤔 What is this?
 
-**Arc** is the easiest way to start building hierarchical multi-agent systems and autonomous applications powered by LLMs. With under 10 lines of code, you can create sophisticated agent teams that collaborate, reason, and solve complex problems. Arc provides pre-built agent architectures, orchestration patterns, and workflow management to help you get started quickly and seamlessly incorporate intelligent agents into your applications.
+**azcore** is the easiest way to start building hierarchical multi-agent systems and autonomous applications powered by LLMs. With under 10 lines of code, you can create sophisticated agent teams that collaborate, reason, and solve complex problems. azcore provides pre-built agent architectures, orchestration patterns, and workflow management to help you get started quickly and seamlessly incorporate intelligent agents into your applications.
 
-We recommend you use Arc if you want to:
+We recommend you use azcore if you want to:
 - **Quickly build multi-agent systems** with hierarchical coordination
 - **Implement advanced reasoning patterns** like ReAct, Reflexion, and Self-Consistency
 - **Create autonomous agent teams** with built-in collaboration and routing
 - **Build production-ready agent applications** with persistence, caching, and monitoring
 
-Arc supports multiple agent patterns and workflows including:
+azcore supports multiple agent patterns and workflows including:
 - 🎯 **Agent Patterns**: ReAct, Reflexion, Reasoning Duo, Self-Consistency
 - 🌲 **Workflow Types**: Sequential, Concurrent, Hierarchical, Forest Swarm, Graph-based
 - 🤝 **Team Coordination**: Agent routing, pattern matching, group chat, mixture of agents
@@ -34,7 +34,8 @@ Arc supports multiple agent patterns and workflows including:
 - **Agent Routing**: Intelligent routing based on patterns, capabilities, and context
 - **State Management**: Robust state tracking and persistence across agent interactions
 - **MCP Integration**: Support for Model Context Protocol team building
-- **Reinforcement Learning**: Built-in RL manager for agent optimization
+- **Reinforcement Learning**: Built-in RL manager for agent optimization with synthetic data training
+- **Synthetic Data Generation**: Train RL models without real user data for faster bootstrapping
 - **Caching & Performance**: Smart caching for LLM calls and conversation history
 - **Production Ready**: Comprehensive logging, error handling, and monitoring
 
@@ -42,15 +43,30 @@ Arc supports multiple agent patterns and workflows including:
 
 For full documentation, see the [API reference](https://docs.azrienlabs.com/docs/overview).
 
+### Quick Guides
+- **[RL Training Quickstart](RL_TRAINING_QUICKSTART.md)** - Train RL for tool selection in minutes
+- **[Synthetic Data Integration](SYNTHETIC_DATA_RL_INTEGRATION.md)** - Complete architecture guide
 
 ### Installation
 ```bash
 pip install azcore
 ```
 
+### ⚡ Train RL in 30 Seconds
+
+```bash
+# Train RL for intelligent tool selection
+python test_rl_training.py
+
+# Or use the quick launcher
+run_training.bat
+```
+
+See [RL_TRAINING_QUICKSTART.md](RL_TRAINING_QUICKSTART.md) for details.
+
 ## 📄 License
 
-Arc is released under the [MIT License](LICENSE).
+azcore is released under the [MIT License](LICENSE).
 
 ## 🔗 Links
 - **GitHub**: [https://github.com/Azrienlabs/Az-Flow](https://github.com/Azrienlabs/Az-Flow)
@@ -63,4 +79,4 @@ Built with ❤️ by the Azrienlabs team.
 
 ---
 
-**Ready to build the next generation of AI agents?** Start with Arc today!
+**Ready to build the next generation of AI agents?** Start with azcore today!

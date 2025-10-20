@@ -347,6 +347,7 @@ class RLManager:
         # Compute similarities
         try:
             from sentence_transformers import util
+            import torch
             
             candidate_embeddings = [
                 self.state_embeddings[s] for s in candidate_states 
@@ -356,7 +357,11 @@ class RLManager:
             if not candidate_embeddings:
                 return None
             
-            similarities = util.cos_sim(query_embedding, candidate_embeddings)[0]
+            # Convert to numpy arrays first, then to tensors to avoid slow list conversion
+            query_tensor = torch.tensor(np.array([query_embedding]))
+            candidate_tensor = torch.tensor(np.array(candidate_embeddings))
+            
+            similarities = util.cos_sim(query_tensor, candidate_tensor)[0]
             similarities = similarities.cpu().numpy() if hasattr(similarities, 'cpu') else np.array(similarities)
             
             max_idx = np.argmax(similarities)
