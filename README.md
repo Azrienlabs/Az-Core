@@ -1,4 +1,6 @@
 ﻿# 🌟 Azcore
+ 
+[![Publish Python 🐍 package to PyPI](https://github.com/Azrienlabs/Az-Flow/actions/workflows/publish.yml/badge.svg)](https://github.com/Azrienlabs/Az-Flow/actions/workflows/publish.yml)
 
 > **azcore** - A professional multi-agent framework built on Python
 
