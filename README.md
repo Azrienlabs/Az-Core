@@ -43,26 +43,12 @@ azcore supports multiple agent patterns and workflows including:
 
 For full documentation, see the [API reference](https://docs.azrienlabs.com/docs/overview).
 
-### Quick Guides
-- **[RL Training Quickstart](RL_TRAINING_QUICKSTART.md)** - Train RL for tool selection in minutes
-- **[Synthetic Data Integration](SYNTHETIC_DATA_RL_INTEGRATION.md)** - Complete architecture guide
+
 
 ### Installation
 ```bash
 pip install azcore
 ```
-
-### ⚡ Train RL in 30 Seconds
-
-```bash
-# Train RL for intelligent tool selection
-python test_rl_training.py
-
-# Or use the quick launcher
-run_training.bat
-```
-
-See [RL_TRAINING_QUICKSTART.md](RL_TRAINING_QUICKSTART.md) for details.
 
 ## 📄 License
 

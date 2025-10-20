@@ -35,11 +35,16 @@ class SyntheticDataPipeline:
         
         Args:
             tool_names: List of available tool names
-            use_llm: Whether to use LLM for generation
-            llm: Optional LLM instance
+            use_llm: Whether to use LLM for generation (auto-detected if llm is provided)
+            llm: Optional LLM instance (if provided, use_llm is automatically set to True)
             min_quality_score: Minimum quality score for validation
         """
         self.tool_names = tool_names
+        
+        # Auto-detect LLM usage: if llm is provided, automatically use it
+        if llm is not None:
+            use_llm = True
+            logger.info("LLM instance provided - automatically enabling LLM-based generation")
         
         # Initialize components
         self.scenario_generator = ScenarioGenerator(
