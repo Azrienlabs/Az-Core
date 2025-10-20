@@ -1,6 +1,6 @@
-﻿# 🌟 azcore Framework
+﻿# 🌟 Azcore
 
-> **azcore** - A professional hierarchical multi-agent framework built on Python
+> **azcore** - A professional multi-agent framework built on Python
 
 To help you ship azcore-powered apps to production faster, check out our comprehensive agent orchestration and workflow management capabilities.
 
