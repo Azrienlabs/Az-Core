@@ -5,12 +5,12 @@ A comprehensive framework for building hierarchical multi-agent systems with Lan
 featuring coordinator-planner-supervisor architecture, team management, and flexible
 agent orchestration with improved error handling and validation.
 
-Version: 0.0.1
+Version: 0.0.2
 Author: Arc  Team
 License: MIT
 """
 
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 __author__ = "Arc Team"
 
 from azcore.core.base import BaseAgent, BaseTeam, BaseNode
