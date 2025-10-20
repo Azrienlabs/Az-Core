@@ -53,7 +53,6 @@ pip install azcore
 Arc is released under the [MIT License](LICENSE).
 
 ## 🔗 Links
-
 - **GitHub**: [https://github.com/Azrienlabs/Az-Flow](https://github.com/Azrienlabs/Az-Flow)
 - **Issues**: [https://github.com/Azrienlabs/Az-Flow/issues](https://github.com/Azrienlabs/Az-Flow/issues)
 - **PyPI**: [https://pypi.org/project/azcore/](https://pypi.org/project/azcore/)
