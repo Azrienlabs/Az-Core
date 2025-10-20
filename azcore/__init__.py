@@ -1,5 +1,5 @@
 """
-Azcore - A Professional Hierarchical Multi-Agent Framework
+Azcore - A Professional Multi-Agent Framework
 
 A comprehensive framework for building hierarchical multi-agent systems with LangGraph,
 featuring coordinator-planner-supervisor architecture, team management, and flexible
@@ -24,8 +24,6 @@ from azcore.nodes.generator import ResponseGeneratorNode
 from azcore.config.config import Config, load_config
 from azcore.core.orchestrator import GraphOrchestrator
 from azcore.utils.logging import setup_logging, get_logger
-
-# New imports for improved framework
 from azcore import exceptions
 from azcore.config import validation
 from azcore.utils import retry
