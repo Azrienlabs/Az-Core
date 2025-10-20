@@ -1,5 +1,5 @@
 """
-Setup configuration for Arc Flow.
+Setup configuration for Azcore..
 """
 
 from setuptools import setup, find_packages
@@ -17,14 +17,15 @@ if requirements_file.exists():
         requirements = [line.strip() for line in f if line.strip() and not line.startswith("#")]
 
 setup(
-    name="arc-flow",
-    version="0.1.1",
-    author="Arc Team",
+    name="azcore",
+    version="0.0.1",
+    author="Azrienlabs team",
     author_email="info@azrianlabs.com",
     description="A professional hierarchical multi-agent framework built on python.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/pinilDissanayaka/Arc-Framework-v2",
+    url="https://github.com/Azrienlabs/Az-Flow",
+    license="MIT",
     packages=find_packages(exclude=["tests", "tests.*", "examples", "examples.*"]),
     classifiers=[
         "Development Status :: 4 - Beta",
@@ -49,20 +50,15 @@ setup(
             "langchain-mcp-adapters>=0.1.0",
         ],
     },
-    entry_points={
-        "console_scripts": [
-            "arc-framework=arc_flow.cli:main",
-        ],
-    },
     include_package_data=True,
     package_data={
-        "arc": ["py.typed"],
+        "azcore": ["py.typed"],
     },
     zip_safe=False,
-    keywords="Multi-agent agents ai framework hierarchical arc reinforcement-learning",
+    keywords="Multi-agent agents ai framework hierarchical azcore reinforcement-learning",
     project_urls={
-        "Bug Reports": "https://github.com/pinilDissanayaka/Arc-Framework-v2/issues",
-        "Source": "https://github.com/pinilDissanayaka/Arc-Framework-v2",
-        "Documentation": "https://github.com/pinilDissanayaka/Arc-Framework-v2",
+        "Bug Reports": "https://github.com/Azrienlabs/Az-Flow/issues",
+        "Source": "https://github.com/Azrienlabs/Az-Flow",
+        "Documentation": "https://github.com/Azrienlabs/Az-Flow",
     },
 )
