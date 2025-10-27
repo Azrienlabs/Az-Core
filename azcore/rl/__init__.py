@@ -10,7 +10,8 @@ from azcore.rl.rewards import (
     RewardCalculator,
     HeuristicRewardCalculator,
     LLMRewardCalculator,
-    UserFeedbackRewardCalculator
+    UserFeedbackRewardCalculator,
+    ToolUsageRewardCalculator
 )
 
 __all__ = [
@@ -18,5 +19,6 @@ __all__ = [
     "RewardCalculator",
     "HeuristicRewardCalculator",
     "LLMRewardCalculator",
-    "UserFeedbackRewardCalculator"
+    "UserFeedbackRewardCalculator",
+    "ToolUsageRewardCalculator"
 ]

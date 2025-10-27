@@ -389,6 +389,230 @@ class UserFeedbackRewardCalculator(RewardCalculator):
         return self.neutral_reward
 
 
+class ToolUsageRewardCalculator(RewardCalculator):
+    """
+    Reward calculator that verifies correct tool usage.
+    
+    This calculator checks if the tools that were actually called match
+    the expected tools from the plan or RL selection. It penalizes when:
+    - Wrong tools were used
+    - No tools were used when tools were expected
+    - Tools failed to execute
+    
+    Example:
+        >>> calculator = ToolUsageRewardCalculator(
+        ...     correct_tool_reward=1.0,
+        ...     wrong_tool_penalty=-0.8,
+        ...     no_tool_penalty=-0.5
+        ... )
+        >>> reward = calculator.calculate(
+        ...     state, result, query,
+        ...     expected_tools=["get_list_of_categories"],
+        ...     selected_tools=["change_file_category"]
+        ... )
+    """
+    
+    def __init__(
+        self,
+        correct_tool_reward: float = 1.0,
+        wrong_tool_penalty: float = -0.8,
+        partial_match_reward: float = 0.3,
+        no_tool_penalty: float = -0.5,
+        tool_error_penalty: float = -0.7,
+        success_reward: float = 1.0,
+        failure_reward: float = -0.5
+    ):
+        """
+        Initialize tool usage calculator.
+        
+        Args:
+            correct_tool_reward: Reward when correct tools are used
+            wrong_tool_penalty: Penalty when wrong tools are used
+            partial_match_reward: Reward when some correct tools used
+            no_tool_penalty: Penalty when no tools used but expected
+            tool_error_penalty: Penalty when tool execution fails
+            success_reward: Base reward for successful completion
+            failure_reward: Base reward for failed completion
+        """
+        self.correct_tool_reward = correct_tool_reward
+        self.wrong_tool_penalty = wrong_tool_penalty
+        self.partial_match_reward = partial_match_reward
+        self.no_tool_penalty = no_tool_penalty
+        self.tool_error_penalty = tool_error_penalty
+        self.success_reward = success_reward
+        self.failure_reward = failure_reward
+        
+        # Error patterns for detecting failures
+        self.error_patterns = [
+            "Error:", "error:", "ERROR",
+            "Failed", "failed", "FAILED",
+            "Exception", "exception",
+            "Could not", "could not",
+            "Unable to", "unable to",
+            "not found", "Not found"
+        ]
+    
+    def calculate(
+        self,
+        state: Dict[str, Any],
+        result: Any,
+        user_query: str,
+        expected_tools: Optional[list] = None,
+        selected_tools: Optional[list] = None,
+        **kwargs
+    ) -> float:
+        """
+        Calculate reward based on tool usage correctness.
+        
+        Args:
+            state: Agent state after execution
+            result: Execution result
+            user_query: Original user query
+            expected_tools: Tools that should have been used (from plan)
+            selected_tools: Tools that were selected by RL
+            **kwargs: Additional context
+            
+        Returns:
+            Reward value based on tool usage correctness
+        """
+        # Extract actually used tools from messages
+        messages = result.get("messages", [])
+        used_tools = self._extract_used_tools(messages)
+        
+        logger.debug(f"Expected tools: {expected_tools}")
+        logger.debug(f"Selected tools: {selected_tools}")
+        logger.debug(f"Actually used tools: {used_tools}")
+        
+        # Get content for error checking
+        content = self._extract_content(result)
+        
+        # Check for errors in execution
+        has_errors = self._has_errors(content, messages)
+        if has_errors:
+            logger.info("Tool execution had errors - applying penalty")
+            return self.tool_error_penalty
+        
+        # If we have expected tools from the plan, validate against them
+        if expected_tools:
+            if not used_tools:
+                logger.info("No tools used when tools were expected - applying penalty")
+                return self.no_tool_penalty
+            
+            # Check if correct tools were used
+            expected_set = set(expected_tools)
+            used_set = set(used_tools)
+            
+            # Perfect match
+            if expected_set == used_set:
+                logger.info("Correct tools used - applying reward")
+                return self.correct_tool_reward
+            
+            # Partial match (some correct tools used)
+            overlap = expected_set & used_set
+            if overlap:
+                ratio = len(overlap) / len(expected_set)
+                reward = self.partial_match_reward * ratio
+                logger.info(f"Partial tool match ({ratio:.2f}) - applying reduced reward")
+                return reward
+            
+            # Wrong tools used
+            logger.info("Wrong tools used - applying penalty")
+            return self.wrong_tool_penalty
+        
+        # If no expected tools specified, validate against RL selected tools
+        if selected_tools:
+            selected_set = set(selected_tools)
+            used_set = set(used_tools)
+            
+            # Check if any selected tools were actually used
+            if not used_set:
+                logger.info("RL selected tools but none were used - applying penalty")
+                return self.no_tool_penalty
+            
+            # Check overlap
+            overlap = selected_set & used_set
+            if overlap:
+                ratio = len(overlap) / len(selected_set)
+                if ratio >= 0.5:  # At least half the tools were used
+                    logger.info(f"RL-selected tools used ({ratio:.2f}) - applying reward")
+                    return self.success_reward * ratio
+                else:
+                    logger.info(f"Low tool usage ratio ({ratio:.2f}) - applying reduced reward")
+                    return self.partial_match_reward * ratio
+            
+            # Selected tools weren't used
+            logger.info("RL-selected tools not used - applying penalty")
+            return self.wrong_tool_penalty
+        
+        # Fallback: no tool validation possible, check for errors only
+        if has_errors or not content:
+            return self.failure_reward
+        
+        return self.success_reward
+    
+    def _extract_used_tools(self, messages: list) -> list:
+        """Extract tool names that were actually called from messages."""
+        used_tools = []
+        
+        for msg in messages:
+            # Check for tool calls in AIMessage
+            if hasattr(msg, 'tool_calls') and msg.tool_calls:
+                for tool_call in msg.tool_calls:
+                    if isinstance(tool_call, dict) and 'name' in tool_call:
+                        used_tools.append(tool_call['name'])
+                    elif hasattr(tool_call, 'name'):
+                        used_tools.append(tool_call.name)
+            
+            # Check for function calls in message content
+            if hasattr(msg, 'additional_kwargs'):
+                func_call = msg.additional_kwargs.get('function_call')
+                if func_call and 'name' in func_call:
+                    used_tools.append(func_call['name'])
+        
+        return list(set(used_tools))  # Return unique tool names
+    
+    def _extract_content(self, result: Any) -> str:
+        """Extract text content from result."""
+        if isinstance(result, str):
+            return result
+        
+        if isinstance(result, dict):
+            # Try common keys
+            for key in ["content", "output", "result", "text", "answer"]:
+                if key in result:
+                    return str(result[key])
+            
+            # Check for messages
+            messages = result.get("messages", [])
+            if messages:
+                last_msg = messages[-1]
+                if hasattr(last_msg, "content"):
+                    return last_msg.content
+                elif isinstance(last_msg, tuple) and len(last_msg) > 1:
+                    return str(last_msg[1])
+        
+        return str(result)
+    
+    def _has_errors(self, content: str, messages: list) -> bool:
+        """Check if content or messages contain errors."""
+        # Check content
+        if content:
+            content_lower = content.lower()
+            for pattern in self.error_patterns:
+                if pattern.lower() in content_lower:
+                    return True
+        
+        # Check messages
+        for msg in messages:
+            if hasattr(msg, "content"):
+                msg_content = str(msg.content).lower()
+                for pattern in self.error_patterns:
+                    if pattern.lower() in msg_content:
+                        return True
+        
+        return False
+
+
 class CompositeRewardCalculator(RewardCalculator):
     """
     Combines multiple reward calculators with weights.
