@@ -5,7 +5,7 @@ A comprehensive framework for building hierarchical multi-agent systems with Lan
 featuring coordinator-planner-supervisor architecture, team management, and flexible
 agent orchestration with improved error handling and validation.
 
-Version: 0.0.3
+Version: 0.0.4
 Author: Arc  Team
 License: MIT
 """
@@ -14,7 +14,7 @@ License: MIT
 import warnings
 warnings.filterwarnings('ignore', category=DeprecationWarning, module='langgraph')
 
-__version__ = "0.0.3"
+__version__ = "0.0.4"
 __author__ = "Arc Team"
 
 from azcore.core.base import BaseAgent, BaseTeam, BaseNode
@@ -28,9 +28,9 @@ from azcore.nodes.generator import ResponseGeneratorNode
 from azcore.config.config import Config, load_config
 from azcore.core.orchestrator import GraphOrchestrator
 from azcore.utils.logging import setup_logging, get_logger
-from azcore import exceptions
 from azcore.config import validation
 from azcore.utils import retry
+from azcore import exceptions
 
 __all__ = [
     # Core classes
