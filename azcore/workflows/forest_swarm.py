@@ -416,6 +416,10 @@ Respond with ONLY the tree name, nothing else."""
         return getattr(message, "content", str(message))
     
     def __repr__(self) -> str:
+        """Return a string representation of the ForestSwarm.
+
+        Includes the name, number of trees and selection mode.
+        """
         return (
             f"ForestSwarm(name='{self.name}', "
             f"trees={len(self.trees)}, "

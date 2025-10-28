@@ -426,8 +426,22 @@ class ConcurrentWorkflow:
         return getattr(message, "content", str(message))
     
     def __repr__(self) -> str:
+        """Return a string representation of the ConcurrentWorkflow instance.
+
+        This method returns a string of the form
+        "ConcurrentWorkflow(name='<name>', agents=<num_agents>, strategy='<strategy>')"
+        which is useful for debugging and logging purposes.
+
+        Returns:
+            str: A string representation of the ConcurrentWorkflow instance."""
         agent_names = [getattr(a, 'name', f'Agent_{i}') for i, a in enumerate(self.agents)]
         return f"ConcurrentWorkflow(name='{self.name}', agents={len(agent_names)}, strategy='{self.aggregation_strategy}')"
     
     def __len__(self) -> int:
+        """Return the number of agents in the workflow.
+
+        This method returns the number of agents added to the workflow using the add_agent method.
+
+        Returns:
+            int: The number of agents in the workflow."""
         return len(self.agents)

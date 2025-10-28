@@ -355,8 +355,26 @@ class SequentialWorkflow:
         return getattr(message, "content", str(message))
     
     def __repr__(self) -> str:
+        """
+        Return a string representation of the SequentialWorkflow instance.
+
+        This method returns a string of the form
+        "SequentialWorkflow(name='<name>', agents=[<agent1>, <agent2>, ...])"
+        which is useful for debugging and logging purposes.
+
+        Returns:
+            str: A string representation of the SequentialWorkflow instance.
+        """
         agent_names = ", ".join(self.get_agent_chain())
         return f"SequentialWorkflow(name='{self.name}', agents=[{agent_names}])"
     
     def __len__(self) -> int:
+        """
+        Return the number of agents in the workflow.
+        
+        This method returns the number of agents added to the workflow using the add_agent method.
+        
+        Returns:
+            int: The number of agents in the workflow.
+        """
         return len(self.agents)

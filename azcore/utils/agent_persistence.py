@@ -374,4 +374,11 @@ class AgentPersistence:
         return False
 
     def __repr__(self) -> str:
+        """Return a string representation of the AgentPersistence instance.
+
+        The string representation includes the agent name and the save format.
+
+        Returns:
+            str: A string representation of the AgentPersistence instance.
+        """
         return f"AgentPersistence(agent='{self.agent.name}', format='{self.save_format}')"

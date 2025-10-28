@@ -399,6 +399,12 @@ class MixtureOfAgents:
         return getattr(message, "content", str(message))
     
     def __repr__(self) -> str:
+        """Return a string representation of the MixtureOfAgents object.
+        
+        This representation can be used to recreate the object and is
+        useful for debugging and logging purposes.
+        """
+        
         return (
             f"MixtureOfAgents(name='{self.name}', "
             f"experts={len(self.expert_agents)}, "

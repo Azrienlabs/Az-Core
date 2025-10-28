@@ -5,8 +5,6 @@ This module provides operational utilities for agents and workflows including
 async operations, batching, resource monitoring, and data compression.
 Inspired by Swarm's BaseStructure pattern.
 """
-
-import os
 import gzip
 import json
 import asyncio
@@ -536,4 +534,10 @@ class BaseStructure:
         return yaml.dump(self.to_dict(), default_flow_style=False)
 
     def __repr__(self) -> str:
+        """
+        Return a string representation of the structure.
+
+        Returns:
+            String representation
+        """
         return f"{self.__class__.__name__}(name='{self.name}')"

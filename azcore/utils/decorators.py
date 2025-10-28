@@ -7,7 +7,7 @@ and other common patterns.
 
 import asyncio
 import functools
-from typing import Callable, Any
+from typing import Callable
 import logging
 
 logger = logging.getLogger(__name__)

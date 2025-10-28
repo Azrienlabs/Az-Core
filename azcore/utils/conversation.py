@@ -5,7 +5,6 @@ This module provides conversation history tracking, persistence, and
 token management capabilities inspired by Swarm's conversation system.
 """
 
-import os
 import json
 import uuid
 import datetime

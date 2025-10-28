@@ -6,12 +6,10 @@ to reduce API calls and improve response times.
 """
 
 import hashlib
-import json
 from typing import Any, Dict, List, Optional, Union
 from langchain_core.language_models.chat_models import BaseChatModel
-from langchain_core.messages import BaseMessage, AIMessage
-from langchain_core.outputs import ChatGeneration, ChatResult
-from azcore.utils.caching import LRUCache, SemanticCache, get_llm_cache
+from langchain_core.messages import BaseMessage
+from azcore.utils.caching import SemanticCache, get_llm_cache
 import logging
 
 logger = logging.getLogger(__name__)
