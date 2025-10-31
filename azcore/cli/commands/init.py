@@ -499,6 +499,12 @@ def _create_team_modules(project_path: Path):
         for file in template_modules_dir.iterdir():
             if file.is_file() and file.suffix == ".py":
                 shutil.copy2(file, target_dir / file.name)
+    
+    # Copy prompts directory
+    prompts_source = template_modules_dir / "prompts"
+    prompts_target = target_dir / "prompts"
+    if prompts_source.exists():
+        shutil.copytree(prompts_source, prompts_target, dirs_exist_ok=True)
 
 
 def _interactive_template_selection() -> str:

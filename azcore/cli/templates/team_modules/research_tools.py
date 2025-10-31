@@ -4,6 +4,7 @@ from langchain_core.tools import tool
 from typing import Dict, Any
 import requests
 import json
+from .utils import load_prompt
 
 
 @tool
@@ -93,11 +94,7 @@ research_tools = [web_search, scrape_webpage, summarize_content]
 # Team configuration
 research_team_config = {
     "name": "research_team",
-    "prompt": (
-        "You are a research specialist. Use web search to find information, "
-        "scrape webpages for detailed content, and summarize findings. "
-        "Provide accurate, well-researched information based on the tools available."
-    ),
+    "prompt": load_prompt("research_team"),
     "description": "Web research and information gathering with RL-optimized tool selection",
     "rl_config": {
         "q_table_path": "rl_data/research_q_table.pkl",

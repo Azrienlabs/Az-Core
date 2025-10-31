@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Dict, Any, List
 from langchain_core.tools import tool
 import json
+from .utils import load_prompt
 
 
 @tool
@@ -217,11 +218,7 @@ file_tools = [
 # Team configuration
 file_team_config = {
     "name": "file_team",
-    "prompt": (
-        "You are a file management specialist. Use the appropriate tools to read, "
-        "write, list, delete, copy, and search files. Always verify file paths and "
-        "handle errors gracefully. Provide clear feedback on operations."
-    ),
+    "prompt": load_prompt("file_team"),
     "description": "File system operations and management",
     "rl_config": {
         "q_table_path": "rl_data/file_q_table.pkl",

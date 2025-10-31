@@ -5,6 +5,7 @@ import csv
 from typing import Dict, Any, List
 from langchain_core.tools import tool
 import io
+from .utils import load_prompt
 
 
 @tool
@@ -177,11 +178,7 @@ data_tools = [
 # Team configuration
 data_team_config = {
     "name": "data_team",
-    "prompt": (
-        "You are a data analysis specialist. Use the appropriate tools to analyze, "
-        "process, filter, and aggregate data. Provide clear insights and summaries. "
-        "Handle CSV and JSON formats efficiently."
-    ),
+    "prompt": load_prompt("data_team"),
     "description": "Data analysis and processing with statistical capabilities",
     "rl_config": {
         "q_table_path": "rl_data/data_q_table.pkl",

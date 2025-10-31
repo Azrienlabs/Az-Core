@@ -43,6 +43,12 @@ import pickle
     type=click.Path(),
     help="Export stats to file",
 )
+@click.option(
+    "--tips",
+    "-t",
+    is_flag=True,
+    help="Show productivity tips based on usage patterns",
+)
 def stats(
     show_rl_metrics: bool,
     show_cache_stats: bool,
@@ -50,6 +56,7 @@ def stats(
     data_dir: str,
     format: str,
     export: Optional[str],
+    tips: bool,
 ):
     """Display Az-Core statistics and metrics.
     
@@ -57,6 +64,7 @@ def stats(
         azcore stats --show-rl-metrics
         azcore stats --show-cache-stats --format json
         azcore stats --show-rl-metrics --export stats.json
+        azcore stats --tips
     """
     data_path = Path(data_dir)
     
@@ -96,6 +104,10 @@ def stats(
         with open(export_path, "w") as f:
             json.dump(all_stats, f, indent=2, default=str)
         click.secho(f"\n✓ Stats exported to: {export_path}", fg="green")
+    
+    # Show productivity tips
+    if tips:
+        _show_productivity_tips(all_stats)
 
 
 def _get_rl_metrics(data_path: Path) -> Dict[str, Any]:
@@ -273,3 +285,94 @@ def _display_agent_stats(stats: Dict[str, Any], format: str):
             click.secho("  No agent logs found", fg="yellow")
     
     click.echo()
+
+
+def _show_productivity_tips(stats: Dict[str, Any]):
+    """Show productivity tips based on usage statistics."""
+    click.echo("\n" + "=" * 70)
+    click.secho("💡 Productivity Tips", fg="yellow", bold=True)
+    click.echo("=" * 70 + "\n")
+    
+    tips_shown = 0
+    
+    # Cache-related tips
+    cache_stats = stats.get("cache_stats", {})
+    if cache_stats.get("cache_exists"):
+        hit_rate = cache_stats.get("hit_rate", 0)
+        if hit_rate < 30:
+            click.echo("📌 Tip: Your cache hit rate is low (<30%).")
+            click.echo("   Consider using CachedLLM for frequently repeated queries.")
+            click.echo("   Example: from azcore.utils import CachedLLM\n")
+            tips_shown += 1
+        elif hit_rate > 70:
+            click.secho("✓ Great cache utilization! You're saving on API costs.", fg="green")
+            tips_shown += 1
+    else:
+        click.echo("📌 Tip: Enable caching to reduce API costs and latency.")
+        click.echo("   Use CachedLLM to cache LLM responses automatically.")
+        click.echo("   Can save 50-80% on repeated queries!\n")
+        tips_shown += 1
+    
+    # RL-related tips
+    rl_stats = stats.get("rl_metrics", {})
+    if rl_stats.get("q_table_exists"):
+        num_states = rl_stats.get("num_states", 0)
+        if num_states < 100:
+            click.echo("📌 Tip: Your Q-table has few states. Consider:")
+            click.echo("   • Generate more synthetic training data")
+            click.echo("   • Run more training episodes")
+            click.echo("   • Use: azcore train rl-agent --episodes 500\n")
+            tips_shown += 1
+        elif num_states > 1000:
+            click.echo("📌 Tip: Large Q-table detected. Consider:")
+            click.echo("   • Using embeddings for state representation")
+            click.echo("   • Enable with: use_embeddings=True in RLManager\n")
+            tips_shown += 1
+    else:
+        click.echo("📌 Tip: Try RL-powered agents for adaptive tool selection!")
+        click.echo("   • Create with: azcore init --template rl-agent")
+        click.echo("   • Or run: azcore examples show rl-agent\n")
+        tips_shown += 1
+    
+    # Agent performance tips
+    agent_stats = stats.get("agent_stats", {})
+    if agent_stats.get("logs_exist"):
+        success_rate = agent_stats.get("success_rate", 0)
+        avg_time = agent_stats.get("avg_execution_time", 0)
+        
+        if success_rate < 70:
+            click.echo("📌 Tip: Low success rate detected. Try:")
+            click.echo("   • Add better error handling and retries")
+            click.echo("   • Use validation nodes in your workflow")
+            click.echo("   • Check agent prompts for clarity\n")
+            tips_shown += 1
+        
+        if avg_time > 10:
+            click.echo("📌 Tip: Long execution times detected. Consider:")
+            click.echo("   • Using faster models for simple tasks (gpt-4o-mini)")
+            click.echo("   • Enable streaming for better UX")
+            click.echo("   • Break complex tasks into smaller agents\n")
+            tips_shown += 1
+    
+    # General tips
+    if tips_shown < 3:
+        general_tips = [
+            ("🎯", "Use 'azcore examples list' to discover pre-built patterns"),
+            ("🔍", "Run 'azcore doctor' to check your environment setup"),
+            ("📚", "Check out 'azcore create agent' for quick scaffolding"),
+            ("🚀", "Use hierarchical teams for complex multi-step tasks"),
+            ("💾", "Enable conversation persistence with checkpointers"),
+            ("⚡", "Try concurrent workflows for independent tasks"),
+        ]
+        
+        import random
+        remaining = 3 - tips_shown
+        for emoji, tip in random.sample(general_tips, min(remaining, len(general_tips))):
+            click.echo(f"{emoji} Tip: {tip}\n")
+            tips_shown += 1
+    
+    if tips_shown == 0:
+        click.echo("No specific tips at this time. Keep up the good work! 🎉\n")
+    
+    click.echo("-" * 70)
+    click.echo("Run 'azcore stats --tips' anytime for personalized suggestions.\n")

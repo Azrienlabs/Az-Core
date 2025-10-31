@@ -5,6 +5,7 @@ from typing import Dict, Any, List
 from langchain_core.tools import tool
 import json
 from datetime import datetime
+from .utils import load_prompt
 
 
 @tool
@@ -148,11 +149,7 @@ communication_tools = [
 # Team configuration
 communication_team_config = {
     "name": "communication_team",
-    "prompt": (
-        "You are a communication specialist. Use the appropriate tools to send emails, "
-        "post messages, create notifications, schedule reminders, and log activities. "
-        "Ensure messages are clear and reach the intended recipients."
-    ),
+    "prompt": load_prompt("communication_team"),
     "description": "Communication and notification management",
     "rl_config": {
         "q_table_path": "rl_data/communication_q_table.pkl",
