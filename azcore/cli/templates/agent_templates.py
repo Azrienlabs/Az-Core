@@ -94,49 +94,139 @@ def main():
         api_key=os.getenv("OPENAI_API_KEY")
     )
     
-    # Define team members
-    team_config = {{
-        "researcher": {{
-            "role": "researcher",
-            "goal": "Research and gather information",
-            "backstory": "Expert at finding and analyzing information"
-        }},
-        "analyst": {{
-            "role": "analyst",
-            "goal": "Analyze data and provide insights",
-            "backstory": "Skilled at critical thinking and analysis"
-        }},
-        "writer": {{
-            "role": "writer",
-            "goal": "Create well-written content",
-            "backstory": "Expert at clear and concise communication"
-        }}
-    }}
+    # Create team builder with specialized agents
+    from azcore.agents.team_builder import TeamBuilder
     
-    # Build team
-    team_builder = TeamBuilder(llm=llm)
-    agents = team_builder.build_team(team_config)
+    # Define example tools (replace with your actual tools)
+    from langchain_core.tools import tool
     
-    # Create workflow
-    workflow = SequentialWorkflow(agents=list(agents.values()))
+    @tool
+    def research_tool(query: str) -> str:
+        """Research tool for gathering information."""
+        return f"Research results for: {{query}}"
+    
+    @tool
+    def analyze_tool(query: str) -> str:
+        """Analysis tool for data insights."""
+        return f"Analysis of: {{query}}"
+    
+    tools = [research_tool, analyze_tool]
+    
+    # Build team with fluent interface
+    team = (TeamBuilder("research_team")
+        .with_llm(llm)
+        .with_tools(tools)
+        .with_prompt("You are a helpful research and analysis team.")
+        .with_description("Handles research and analysis tasks")
+        .build())
     
     # Get input query
     query = os.getenv("AZCORE_INPUT_QUERY") or input("Enter your query: ")
     
     # Initialize state
-    state = State(messages=[{{"role": "user", "content": query}}])
+    from langchain_core.messages import HumanMessage
+    state = State(messages=[HumanMessage(content=query)])
     
-    # Run workflow
+    # Run team (invoke the callable)
     print("\\nProcessing through team...\\n")
-    result = workflow.run(state)
+    result = team(state)
     
     # Display result
     print("\\nFinal Result:")
     print("-" * 60)
+    # Handle Command object
+    from langgraph.types import Command
+    if isinstance(result, Command):
+        messages = result.update.get("messages", [])
+        if messages:
+            last_message = messages[-1]
+            print(last_message.content if hasattr(last_message, 'content') else str(last_message))
+        else:
+            print("No response messages")
+    elif isinstance(result, dict) and result.get("update"):
+        messages = result["update"].get("messages", [])
+        if messages:
+            last_message = messages[-1]
+            print(last_message.content if hasattr(last_message, 'content') else str(last_message))
+    else:
+        print(str(result))
+    print("-" * 60)
+
+
+if __name__ == "__main__":
+    main()
+'''
+
+
+def get_modular_team_agent_template(project_name: str) -> str:
+    """Get modular team agent template with separate tool files."""
+    return f'''"""
+{project_name} - Modular Team Agent System
+Created with Az-Core CLI
+
+This demonstrates a modular approach with:
+- Separate tool modules for each team
+- Centralized graph builder
+- Easy team management and scaling
+
+Author: Az-Core Framework
+Date: 2025
+"""
+
+import logging
+import os
+from dotenv import load_dotenv
+from langchain_core.messages import HumanMessage
+
+# Import the modular graph builder
+from team_modules.graph_builder import build_graph
+
+# Load environment variables
+load_dotenv()
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
+
+def main():
+    """Main application entry point."""
+    logger.info("Starting RL-enabled hierarchical team system...")
+    
+    # Build the graph with all teams
+    graph = build_graph("configs/config.yml")
+    
+    # Get input query
+    query = os.getenv("AZCORE_INPUT_QUERY") or input("\\nEnter your query: ")
+    
+    # Initialize state with user message
+    initial_state = {{
+        "messages": [HumanMessage(content=query)]
+    }}
+    
+    logger.info(f"\\nProcessing query: {{query}}\\n")
+    
+    # Run the graph
+    result = graph.invoke(initial_state)
+    
+    # Display result
+    print("\\n" + "=" * 70)
+    print("FINAL RESULT")
+    print("=" * 70)
+    
     if result.get("messages"):
         last_message = result["messages"][-1]
-        print(last_message.content if hasattr(last_message, 'content') else str(last_message))
-    print("-" * 60)
+        content = last_message.content if hasattr(last_message, 'content') else str(last_message)
+        print(content)
+    else:
+        print("No result generated")
+    
+    print("=" * 70 + "\\n")
+    
+    logger.info("Process completed successfully")
 
 
 if __name__ == "__main__":

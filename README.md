@@ -57,8 +57,8 @@ pip install azcore
 azcore is released under the [MIT License](LICENSE).
 
 ## 🔗 Links
-- **GitHub**: [https://github.com/Azrienlabs/Az-Flow](https://github.com/Azrienlabs/Az-Flow)
-- **Issues**: [https://github.com/Azrienlabs/Az-Flow/issues](https://github.com/Azrienlabs/Az-Flow/issues)
+- **GitHub**: [https://github.com/Azrienlabs/Az-Core](https://github.com/Azrienlabs/Az-Core)
+- **Issues**: [https://github.com/Azrienlabs/Az-Core/issues](https://github.com/Azrienlabs/Az-Core/issues)
 - **PyPI**: [https://pypi.org/project/azcore/](https://pypi.org/project/azcore/)
 
 ## 🙏 Acknowledgments
