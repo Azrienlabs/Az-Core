@@ -7,14 +7,31 @@ from pathlib import Path
 
 # Read README
 readme_file = Path(__file__).parent / "README.md"
-long_description = readme_file.read_text(encoding="utf-8") if readme_file.exists() else ""
+long_description = ""
+if readme_file.exists():
+    try:
+        # Try UTF-8 with BOM first
+        long_description = readme_file.read_text(encoding="utf-8-sig")
+    except UnicodeDecodeError:
+        # Fallback to UTF-8 without BOM
+        long_description = readme_file.read_text(encoding="utf-8", errors="ignore")
 
-# Read requirements
-requirements_file = Path(__file__).parent / "requirements.txt"
-requirements = []
-if requirements_file.exists():
-    with open(requirements_file) as f:
-        requirements = [line.strip() for line in f if line.strip() and not line.startswith("#")]
+# Core requirements (flexible versions for compatibility)
+requirements = [
+    "langchain>=1.0.0",
+    "langchain-core>=1.0.0",
+    "langchain-openai>=1.0.0",
+    "langgraph>=1.0.0",
+    "langgraph-checkpoint>=3.0.0",
+    "openai>=2.0.0",
+    "pydantic>=2.0.0",
+    "pydantic-settings>=2.0.0",
+    "python-dotenv>=1.0.0",
+    "PyYAML>=6.0",
+    "click>=8.0.0",
+    "requests>=2.31.0",
+    "numpy>=1.24.0",
+]
 
 setup(
     name="azcore",
@@ -48,6 +65,11 @@ setup(
         ],
         "mcp": [
             "langchain-mcp-adapters>=0.1.0",
+        ],
+        "rl": [
+            "torch>=2.0.0",
+            "sentence-transformers>=2.0.0",
+            "scikit-learn>=1.0.0",
         ],
     },
     include_package_data=True,
