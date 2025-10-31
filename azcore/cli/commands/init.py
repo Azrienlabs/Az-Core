@@ -19,7 +19,7 @@ from azcore.cli.templates import (
 try:
     from azcore import __version__ as AZCORE_VERSION
 except ImportError:
-    AZCORE_VERSION = "0.0.5"
+    AZCORE_VERSION = "0.0.6"
 
 
 def print_banner():
@@ -235,7 +235,7 @@ def _get_template_content(template: str, name: str) -> str:
 def _get_requirements(template: str) -> str:
     """Get requirements.txt content based on template."""
     base_requirements = """# Az-Core Framework
-azcore>=0.0.5
+azcore>=0.0.6
 
 # LangChain
 langchain>=0.1.0
