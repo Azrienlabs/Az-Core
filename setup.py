@@ -10,28 +10,33 @@ readme_file = Path(__file__).parent / "README.md"
 long_description = ""
 if readme_file.exists():
     try:
-        # Try UTF-8 with BOM first
         long_description = readme_file.read_text(encoding="utf-8-sig")
     except UnicodeDecodeError:
-        # Fallback to UTF-8 without BOM
         long_description = readme_file.read_text(encoding="utf-8", errors="ignore")
 
-# Core requirements (flexible versions for compatibility)
-requirements = [
-    "langchain>=1.0.0",
-    "langchain-core>=1.0.0",
-    "langchain-openai>=1.0.0",
-    "langgraph>=1.0.0",
-    "langgraph-checkpoint>=3.0.0",
-    "openai>=2.0.0",
-    "pydantic>=2.0.0",
-    "pydantic-settings>=2.0.0",
-    "python-dotenv>=1.0.0",
-    "PyYAML>=6.0",
-    "click>=8.0.0",
-    "requests>=2.31.0",
-    "numpy>=1.24.0",
-]
+# Read requirements from requirements.txt and convert == to >= for compatibility
+requirements_file = Path(__file__).parent / "requirements.txt"
+requirements = []
+if requirements_file.exists():
+    # Try different encodings (UTF-16 LE, UTF-8 with BOM, UTF-8)
+    for encoding in ["utf-16-le", "utf-16", "utf-8-sig", "utf-8"]:
+        try:
+            with open(requirements_file, encoding=encoding, errors="ignore") as f:
+                for line in f:
+                    line = line.strip()
+                    # Remove BOM if present
+                    line = line.lstrip('\ufeff')
+                    # Skip empty lines and comments
+                    if not line or line.startswith("#"):
+                        continue
+                    # Convert exact version pins (==) to minimum version (>=) for better compatibility
+                    if "==" in line:
+                        line = line.replace("==", ">=")
+                    requirements.append(line)
+            break  # Successfully read, exit loop
+        except (UnicodeDecodeError, UnicodeError):
+            requirements = []  # Reset and try next encoding
+            continue
 
 setup(
     name="azcore",
