@@ -5,7 +5,7 @@ import click
 
 
 @click.group()
-@click.version_option(version="0.0.6", prog_name="azcore")
+@click.version_option(version="0.0.7", prog_name="azcore")
 def cli():
     """Az-Core: Advanced AI Agent Framework with RL Integration.
     
