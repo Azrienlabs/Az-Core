@@ -8,6 +8,7 @@ import random
 import logging
 from typing import List, Dict, Any, Tuple
 from azcore.rl.synthetic_data.scenario_generator import Scenario
+from azcore.exceptions import ValidationError
 
 logger = logging.getLogger(__name__)
 
@@ -146,7 +147,17 @@ class OutcomeSimulator:
             List of (outcome, reward) tuples
         """
         if len(scenarios) != len(selected_tools_list):
-            raise ValueError("Number of scenarios must match number of tool selections")
+            logger.error(
+                f"Scenario count mismatch: {len(scenarios)} scenarios vs "
+                f"{len(selected_tools_list)} tool selections"
+            )
+            raise ValidationError(
+                "Number of scenarios must match number of tool selections",
+                details={
+                    "scenarios_count": len(scenarios),
+                    "tool_selections_count": len(selected_tools_list)
+                }
+            )
         
         results = []
         for scenario, selected_tools in zip(scenarios, selected_tools_list):

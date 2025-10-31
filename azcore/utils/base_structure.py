@@ -28,6 +28,8 @@ except ImportError:
     YAML_AVAILABLE = False
     logging.warning("PyYAML not available, YAML export disabled")
 
+from azcore.exceptions import ValidationError
+
 logger = logging.getLogger(__name__)
 
 
@@ -423,7 +425,15 @@ class BaseStructure:
             with open(path) as f:
                 return yaml.safe_load(f)
         else:
-            raise ValueError(f"Unsupported config format: {path.suffix}")
+            logger.error(f"Unsupported config format: {path.suffix} for file {path}")
+            raise ValidationError(
+                f"Unsupported config format: {path.suffix}",
+                details={
+                    "file_path": str(path),
+                    "format": path.suffix,
+                    "supported_formats": [".json", ".yaml", ".yml"]
+                }
+            )
 
     # ============================================================================
     # Data Backup

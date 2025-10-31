@@ -11,6 +11,7 @@ import datetime
 from typing import Any, Dict, List, Optional, Literal
 from pathlib import Path
 import logging
+from azcore.exceptions import ValidationError
 
 logger = logging.getLogger(__name__)
 
@@ -255,7 +256,15 @@ class Conversation:
             except ImportError:
                 raise ImportError("PyYAML required for loading YAML files")
         else:
-            raise ValueError(f"Unsupported file format: {path.suffix}")
+            logger.error(f"Unsupported conversation file format: {path.suffix} for file {path}")
+            raise ValidationError(
+                f"Unsupported file format: {path.suffix}",
+                details={
+                    "file_path": str(path),
+                    "format": path.suffix,
+                    "supported_formats": [".json", ".yaml"]
+                }
+            )
 
         self.id = data.get("id", self.id)
         self.name = data.get("name", self.name)

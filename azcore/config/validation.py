@@ -9,6 +9,7 @@ from typing import Optional, Dict, Any, List
 from pathlib import Path
 from pydantic import BaseModel, Field, field_validator, model_validator
 import logging
+from azcore.exceptions import ValidationError
 
 logger = logging.getLogger(__name__)
 
@@ -242,8 +243,13 @@ class LoggingConfig(BaseModel):
         valid_levels = ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
         v_upper = v.upper()
         if v_upper not in valid_levels:
-            raise ValueError(
-                f"Invalid logging level: {v}. Must be one of {valid_levels}"
+            logger.error(f"Invalid logging level provided: {v}")
+            raise ValidationError(
+                f"Invalid logging level: {v}. Must be one of {valid_levels}",
+                details={
+                    "provided_level": v,
+                    "valid_levels": valid_levels
+                }
             )
         return v_upper
 

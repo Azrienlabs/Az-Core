@@ -19,6 +19,7 @@ from azcore.core.agent_executor import create_thinkat_agent
 from azcore.core.base import BaseTeam
 from azcore.core.state import State
 from azcore.core.supervisor import Supervisor
+from azcore.exceptions import ConfigurationError, ValidationError, TeamError
 import logging
 
 logger = logging.getLogger(__name__)
@@ -208,7 +209,11 @@ class MCPTeamBuilder(BaseTeam):
         # Validate configuration based on transport type
         if transport == "stdio":
             if not command or not args:
-                raise ValueError("command and args are required for stdio transport")
+                self._logger.error("MCP stdio transport: Missing command or args")
+                raise ConfigurationError(
+                    "command and args are required for stdio transport",
+                    details={"transport": transport, "command": command, "args": args}
+                )
             server_config = {
                 "command": command,
                 "args": args,
@@ -218,7 +223,11 @@ class MCPTeamBuilder(BaseTeam):
             }
         elif transport == "sse":
             if not url:
-                raise ValueError("url is required for sse transport")
+                self._logger.error("MCP SSE transport: Missing URL")
+                raise ConfigurationError(
+                    "url is required for sse transport",
+                    details={"transport": transport}
+                )
             server_config = {
                 "url": url,
                 "transport": "sse",
@@ -227,7 +236,14 @@ class MCPTeamBuilder(BaseTeam):
                 "sse_read_timeout": sse_read_timeout or 60  # Default 60 seconds
             }
         else:
-            raise ValueError(f"Unsupported transport type: {transport}. Use 'stdio' or 'sse'")
+            self._logger.error(f"MCP: Unsupported transport type '{transport}'")
+            raise ValidationError(
+                f"Unsupported transport type: {transport}. Use 'stdio' or 'sse'",
+                details={
+                    "transport": transport,
+                    "supported_transports": ["stdio", "sse"]
+                }
+            )
         
         self._mcp_servers.append(server_config)
         self._mcp_enabled = True
@@ -435,7 +451,11 @@ class MCPTeamBuilder(BaseTeam):
             RuntimeError: If MCP connection fails
         """
         if not MCP_AVAILABLE:
-            raise RuntimeError("MCP not available")
+            self._logger.error("MCP integration not available")
+            raise ConfigurationError(
+                "MCP not available. Install with: pip install langchain-mcp-adapters",
+                details={"mcp_available": MCP_AVAILABLE}
+            )
         
         # Build server configurations for MultiServerMCPClient
         server_configs = {}
@@ -492,7 +512,10 @@ class MCPTeamBuilder(BaseTeam):
             # Provide detailed error message
             error_msg = self._format_connection_error(e, server_configs)
             self._logger.error(error_msg)
-            raise RuntimeError(error_msg)
+            raise TeamError(
+                f"Failed to connect to MCP server",
+                details={"error": str(e), "server_configs": list(server_configs.keys())}
+            )
     
     def _connect_to_mcp_servers_sync(self) -> List[BaseTool]:
         """
@@ -546,7 +569,11 @@ class MCPTeamBuilder(BaseTeam):
             return self._create_team_callable()
         
         if not self._llm:
-            raise ValueError(f"LLM not set for MCP team '{self.name}'. Use with_llm()")
+            self._logger.error(f"Cannot build MCP team '{self.name}': LLM not configured")
+            raise ConfigurationError(
+                f"LLM not set for MCP team '{self.name}'. Use with_llm()",
+                details={"team_name": self.name, "mcp_configured": self._mcp_server_configured}
+            )
         
         # Connect to MCP servers and discover tools
         if self._mcp_enabled and self._mcp_servers:

@@ -8,6 +8,7 @@ from files or templates.
 from pathlib import Path
 from typing import Dict, Optional
 import logging
+from azcore.exceptions import ConfigurationError
 
 logger = logging.getLogger(__name__)
 
@@ -174,9 +175,14 @@ def load_prompt(
                 loader = PromptLoader(common_dir)
                 break
         else:
-            raise ValueError(
+            logger.error("No prompts directory found in default locations")
+            raise ConfigurationError(
                 "No prompts directory found. Use set_default_prompts_dir() "
-                "or provide prompts_dir parameter"
+                "or provide prompts_dir parameter",
+                details={
+                    "searched_locations": ["prompts", "agent/prompts", "arc/prompts"],
+                    "prompt_name": prompt_name
+                }
             )
     
     return loader.load(prompt_name, variables=variables if variables else None)

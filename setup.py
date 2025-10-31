@@ -54,6 +54,11 @@ setup(
     package_data={
         "azcore": ["py.typed"],
     },
+    entry_points={
+        "console_scripts": [
+            "azcore=azcore.cli.__main__:main",
+        ],
+    },
     zip_safe=False,
     keywords="Multi-agent agents ai framework hierarchical azcore reinforcement-learning",
     project_urls={
