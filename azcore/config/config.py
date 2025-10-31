@@ -13,6 +13,7 @@ from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_core.language_models.chat_models import BaseChatModel
 from langchain_core.embeddings import Embeddings
+from azcore.exceptions import ConfigurationError
 import logging
 
 logger = logging.getLogger(__name__)
@@ -163,7 +164,7 @@ class Config:
             Configured language model
             
         Raises:
-            ValueError: If provider is not supported
+            ConfigurationError: If provider is not supported
         """
         llm_config = self.get(llm_key, {})
         
@@ -173,7 +174,15 @@ class Config:
                 temperature=llm_config.get("temperature", 0.5),
             )
         else:
-            raise ValueError(f"Unsupported LLM provider: {provider}")
+            self._logger.error(f"Unsupported LLM provider requested: {provider}")
+            raise ConfigurationError(
+                f"Unsupported LLM provider: {provider}",
+                details={
+                    "provider": provider,
+                    "supported_providers": ["openai"],
+                    "llm_key": llm_key
+                }
+            )
     
     def get_embeddings(
         self,
@@ -189,13 +198,20 @@ class Config:
             Configured embeddings model
             
         Raises:
-            ValueError: If provider is not supported
+            ConfigurationError: If provider is not supported
         """
         if provider == "openai":
             model = self.get("embedding_model", "text-embedding-3-large")
             return OpenAIEmbeddings(model=model)
         else:
-            raise ValueError(f"Unsupported embeddings provider: {provider}")
+            self._logger.error(f"Unsupported embeddings provider requested: {provider}")
+            raise ConfigurationError(
+                f"Unsupported embeddings provider: {provider}",
+                details={
+                    "provider": provider,
+                    "supported_providers": ["openai"]
+                }
+            )
     
     def to_dict(self) -> Dict[str, Any]:
         """

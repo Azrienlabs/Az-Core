@@ -412,6 +412,13 @@ Respond with just the speaker name, nothing else."""
         return getattr(message, "content", str(message))
     
     def __repr__(self) -> str:
+        """Return a string representation of the GroupChat object.
+
+        The string representation includes the chat name, the number of agents, and the maximum number of rounds.
+
+        Returns:
+            str: A string representation of the GroupChat object.
+        """
         return (
             f"GroupChat(name='{self.name}', "
             f"agents={len(self.agents)}, "

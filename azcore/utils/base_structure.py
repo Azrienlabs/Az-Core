@@ -5,8 +5,6 @@ This module provides operational utilities for agents and workflows including
 async operations, batching, resource monitoring, and data compression.
 Inspired by Swarm's BaseStructure pattern.
 """
-
-import os
 import gzip
 import json
 import asyncio
@@ -29,6 +27,8 @@ try:
 except ImportError:
     YAML_AVAILABLE = False
     logging.warning("PyYAML not available, YAML export disabled")
+
+from azcore.exceptions import ValidationError
 
 logger = logging.getLogger(__name__)
 
@@ -425,7 +425,15 @@ class BaseStructure:
             with open(path) as f:
                 return yaml.safe_load(f)
         else:
-            raise ValueError(f"Unsupported config format: {path.suffix}")
+            logger.error(f"Unsupported config format: {path.suffix} for file {path}")
+            raise ValidationError(
+                f"Unsupported config format: {path.suffix}",
+                details={
+                    "file_path": str(path),
+                    "format": path.suffix,
+                    "supported_formats": [".json", ".yaml", ".yml"]
+                }
+            )
 
     # ============================================================================
     # Data Backup
@@ -536,4 +544,10 @@ class BaseStructure:
         return yaml.dump(self.to_dict(), default_flow_style=False)
 
     def __repr__(self) -> str:
+        """
+        Return a string representation of the structure.
+
+        Returns:
+            String representation
+        """
         return f"{self.__class__.__name__}(name='{self.name}')"

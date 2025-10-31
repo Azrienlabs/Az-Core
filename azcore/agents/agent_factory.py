@@ -11,6 +11,7 @@ from langchain_core.tools import BaseTool
 from azcore.core.agent_executor import create_thinkat_agent
 from azcore.core.base import BaseAgent
 from azcore.utils.cached_llm import CachedLLM, enable_llm_caching
+from azcore.exceptions import AgentError, ConfigurationError, ValidationError
 import logging
 
 logger = logging.getLogger(__name__)
@@ -300,11 +301,15 @@ class AgentFactory:
             ReactAgent instance
             
         Raises:
-            ValueError: If no LLM is provided and no default is set
+            ConfigurationError: If no LLM is provided and no default is set
         """
         agent_llm = llm or self.default_llm
         if not agent_llm:
-            raise ValueError("No LLM provided and no default LLM set")
+            self._logger.error("Cannot create agent: No LLM configured")
+            raise ConfigurationError(
+                "No LLM provided and no default LLM set",
+                details={"agent_name": name, "has_default_llm": self.default_llm is not None}
+            )
         
         agent_tools = list(tools) if tools else self.default_tools
         
@@ -346,10 +351,18 @@ class AgentFactory:
             Agent instance
             
         Raises:
-            ValueError: If agent_class doesn't inherit from BaseAgent
+            ValidationError: If agent_class doesn't inherit from BaseAgent
         """
         if not issubclass(agent_class, BaseAgent):
-            raise ValueError(f"{agent_class} must inherit from BaseAgent")
+            self._logger.error(f"Invalid agent class: {agent_class.__name__} does not inherit from BaseAgent")
+            raise ValidationError(
+                f"Agent class must inherit from BaseAgent",
+                details={
+                    "agent_class": agent_class.__name__,
+                    "agent_name": name,
+                    "base_class": BaseAgent.__name__
+                }
+            )
         
         # Provide defaults if not in kwargs
         if 'llm' not in kwargs and self.default_llm:

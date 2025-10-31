@@ -12,8 +12,8 @@ Use Cases:
 """
 
 import logging
-from typing import List, Dict, Any, Optional, Union, Callable, Type
-from langchain_core.messages import BaseMessage, HumanMessage, SystemMessage
+from typing import List, Dict, Any, Optional, Union, Callable
+from langchain_core.messages import BaseMessage, HumanMessage
 from azcore.core.base import BaseAgent
 from azcore.exceptions import ValidationError
 
@@ -24,7 +24,7 @@ from azcore.workflows.agent_rearrange import AgentRearrange
 from azcore.workflows.graph_workflow import GraphWorkflow
 from azcore.workflows.mixture_of_agents import MixtureOfAgents
 from azcore.workflows.group_chat import GroupChat
-from azcore.workflows.forest_swarm import ForestSwarm, AgentTree
+from azcore.workflows.forest_swarm import ForestSwarm
 from azcore.workflows.hierarchical_swarm import HierarchicalSwarm
 from azcore.workflows.heavy_swarm import HeavySwarm
 
@@ -455,4 +455,12 @@ Respond with ONLY the workflow name (e.g., "sequential", "mixture", "heavy").
         return getattr(message, "content", str(message))
     
     def __repr__(self) -> str:
+        """Return a string representation of the SwarmRouter object.
+
+        This method returns a string of the form
+        "SwarmRouter(name='<name>', workflows=<num_workflows>)"
+        which is useful for debugging and logging purposes.
+
+        Returns:
+            str: A string representation of the SwarmRouter instance."""
         return f"SwarmRouter(name='{self.name}', workflows={len(self._workflow_registry)})"

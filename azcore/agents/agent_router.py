@@ -10,6 +10,7 @@ from langchain_core.language_models.chat_models import BaseChatModel
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_core.tools import BaseTool
 from azcore.core.base import BaseAgent
+from azcore.exceptions import AgentError, ValidationError, StateError
 import logging
 import json
 
@@ -71,7 +72,11 @@ class AgentRouter:
         self._logger = logging.getLogger(f"{self.__class__.__name__}.{name}")
 
         if not agents:
-            raise ValueError("At least one agent must be provided")
+            self._logger.error("AgentRouter: No agents provided")
+            raise ValidationError(
+                "At least one agent must be provided",
+                details={"agent_count": 0}
+            )
 
         # Build agent registry
         self.agent_registry: Dict[str, BaseAgent] = {
@@ -197,13 +202,17 @@ Selected Agent:"""
             Updated state from agent execution
 
         Raises:
-            ValueError: If agent not found
+            AgentError: If agent not found
         """
         agent = self.agent_registry.get(agent_name)
         if not agent:
-            raise ValueError(
-                f"Agent '{agent_name}' not found in registry. "
-                f"Available: {list(self.agent_registry.keys())}"
+            self._logger.error(f"Agent '{agent_name}' not found in registry")
+            raise AgentError(
+                f"Agent '{agent_name}' not found in registry",
+                details={
+                    "requested_agent": agent_name,
+                    "available_agents": list(self.agent_registry.keys())
+                }
             )
 
         self._logger.info(f"Executing agent: {agent_name}")
@@ -322,7 +331,11 @@ class HandoffAgent(BaseAgent):
         super().__init__(name, llm, tools, prompt, description)
 
         if not handoff_agents:
-            raise ValueError("At least one handoff agent must be provided")
+            self._logger.error("HandoffAgent: No handoff agents provided")
+            raise ValidationError(
+                "At least one handoff agent must be provided",
+                details={"agent_count": 0}
+            )
 
         self.handoff_agents = handoff_agents
 
@@ -356,7 +369,11 @@ class HandoffAgent(BaseAgent):
         # Extract task from state
         messages = state.get("messages", [])
         if not messages:
-            raise ValueError("No messages in state")
+            self._logger.error("HandoffAgent: State has no messages")
+            raise StateError(
+                "No messages in state",
+                details={"state_keys": list(state.keys())}
+            )
 
         last_message = messages[-1]
         if hasattr(last_message, "content"):

@@ -428,6 +428,7 @@ Provide:
         return getattr(message, "content", str(message))
     
     def __repr__(self) -> str:
+        """Return a string representation of the HierarchicalSwarm object."""
         return (
             f"HierarchicalSwarm(name='{self.name}', "
             f"workers={len(self.worker_agents)}, "

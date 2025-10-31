@@ -66,7 +66,6 @@ class RLManager:
         embedding_model_name: str = "all-MiniLM-L6-v2",
         similarity_threshold: float = 0.7,
         negative_reward_multiplier: float = 1.5,
-        # New parameters for improvements
         exploration_strategy: ExplorationStrategy = ExplorationStrategy.EPSILON_GREEDY,
         ucb_c: float = 2.0,
         epsilon_decay_rate: float = 0.995,

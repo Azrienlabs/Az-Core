@@ -388,4 +388,10 @@ Provide your {phase_name} output:"""
         return getattr(message, "content", str(message))
     
     def __repr__(self) -> str:
+        """Return a string representation of the HeavySwarm instance.
+
+        The string representation includes the name and number of phases.
+
+        Returns:
+            str: A string representation of the HeavySwarm instance."""
         return f"HeavySwarm(name='{self.name}', phases=5)"

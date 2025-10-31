@@ -15,6 +15,7 @@ from azcore.core.agent_executor import create_thinkat_agent
 from azcore.core.base import BaseTeam
 from azcore.core.state import State
 from azcore.core.supervisor import Supervisor
+from azcore.exceptions import TeamError, ConfigurationError
 import logging
 
 logger = logging.getLogger(__name__)
@@ -200,14 +201,18 @@ class TeamBuilder(BaseTeam):
             Callable that represents the team's functionality
             
         Raises:
-            ValueError: If required components are not set
+            ConfigurationError: If required components are not set
         """
         if self._built:
             self._logger.warning(f"Team '{self.name}' already built")
             return self._create_team_callable()
         
         if not self._llm:
-            raise ValueError(f"LLM not set for team '{self.name}'. Use with_llm()")
+            self._logger.error(f"Cannot build team '{self.name}': LLM not configured")
+            raise ConfigurationError(
+                f"LLM not set for team '{self.name}'. Use with_llm()",
+                details={"team_name": self.name, "tools_count": len(self._tools)}
+            )
         
         # Create agent based on RL configuration
         if self._rl_enabled and RL_AVAILABLE:

@@ -363,6 +363,13 @@ class GraphWorkflow:
         return getattr(message, "content", str(message))
     
     def __repr__(self) -> str:
+        """Return a string representation of the workflow.
+
+        The string representation includes the name of the workflow, the number of nodes, and the entry point.
+
+        Returns:
+            str: String representation of the workflow
+        """
         return (
             f"GraphWorkflow(name='{self.name}', "
             f"nodes={len(self._agents)}, "

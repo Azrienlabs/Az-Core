@@ -11,6 +11,7 @@ from typing import Any, Dict, Optional, Literal
 from pathlib import Path
 from datetime import datetime
 import logging
+from azcore.exceptions import ValidationError
 
 try:
     import yaml
@@ -110,7 +111,14 @@ class AgentPersistence:
         elif self.save_format == "pickle":
             self._save_pickle(state, filepath)
         else:
-            raise ValueError(f"Unsupported format: {self.save_format}")
+            logger.error(f"Unsupported agent save format: {self.save_format}")
+            raise ValidationError(
+                f"Unsupported format: {self.save_format}",
+                details={
+                    "format": self.save_format,
+                    "supported_formats": ["json", "yaml", "pickle"]
+                }
+            )
 
         self._logger.info(f"Saved agent state to {filepath}")
         return filepath
@@ -138,7 +146,15 @@ class AgentPersistence:
         elif path.suffix in [".pkl", ".pickle"]:
             state = self._load_pickle(filepath)
         else:
-            raise ValueError(f"Unsupported file format: {path.suffix}")
+            logger.error(f"Unsupported agent file format: {path.suffix}")
+            raise ValidationError(
+                f"Unsupported file format: {path.suffix}",
+                details={
+                    "file_path": str(path),
+                    "format": path.suffix,
+                    "supported_formats": [".json", ".yaml", ".yml", ".pkl", ".pickle"]
+                }
+            )
 
         # Restore agent state
         self._restore_agent_state(state)
@@ -204,7 +220,14 @@ class AgentPersistence:
         elif export_format in ["yaml", "yml"]:
             self._save_yaml(config, filepath)
         else:
-            raise ValueError(f"Unsupported export format: {export_format}")
+            logger.error(f"Unsupported export format: {export_format}")
+            raise ValidationError(
+                f"Unsupported export format: {export_format}",
+                details={
+                    "format": export_format,
+                    "supported_formats": ["json", "yaml", "yml"]
+                }
+            )
 
         self._logger.info(f"Exported agent config to {filepath}")
 
@@ -374,4 +397,11 @@ class AgentPersistence:
         return False
 
     def __repr__(self) -> str:
+        """Return a string representation of the AgentPersistence instance.
+
+        The string representation includes the agent name and the save format.
+
+        Returns:
+            str: A string representation of the AgentPersistence instance.
+        """
         return f"AgentPersistence(agent='{self.agent.name}', format='{self.save_format}')"

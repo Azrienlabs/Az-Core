@@ -24,6 +24,7 @@ from azcore.agents.self_consistency_agent import SelfConsistencyAgent
 from azcore.agents.reflexion_agent import ReflexionAgent
 from azcore.agents.reasoning_duo_agent import ReasoningDuoAgent
 from azcore.agents.agent_judge import AgentJudge
+from azcore.exceptions import ConfigurationError, ValidationError
 
 logger = logging.getLogger(__name__)
 
@@ -145,7 +146,11 @@ class AgentPatternRouter:
     def _validate_config(self):
         """Validate the router configuration."""
         if self.llm is None:
-            raise ValueError("AgentPatternRouter: llm must be provided")
+            logger.error("AgentPatternRouter: No LLM provided")
+            raise ConfigurationError(
+                "AgentPatternRouter: llm must be provided",
+                details={"pattern": self.pattern}
+            )
 
         if self.pattern not in [
             "self-consistency", "consistency",
@@ -154,9 +159,14 @@ class AgentPatternRouter:
             "agent-judge", "judge",
             "react",
         ]:
-            raise ValueError(
+            logger.error(f"AgentPatternRouter: Invalid pattern '{self.pattern}'")
+            raise ValidationError(
                 f"AgentPatternRouter: Invalid pattern '{self.pattern}'. "
-                f"Must be one of: self-consistency, reflexion, reasoning-duo, agent-judge, react"
+                f"Must be one of: self-consistency, reflexion, reasoning-duo, agent-judge, react",
+                details={
+                    "requested_pattern": self.pattern,
+                    "valid_patterns": ["self-consistency", "reflexion", "reasoning-duo", "agent-judge", "react"]
+                }
             )
 
     def _initialize_agent_factories(self) -> Dict:
@@ -286,8 +296,13 @@ class AgentPatternRouter:
         if self.pattern in self.agent_factories:
             return self.agent_factories[self.pattern]()
         else:
-            raise ValueError(
-                f"AgentPatternRouter: Invalid pattern '{self.pattern}'"
+            logger.error(f"AgentPatternRouter: Invalid pattern '{self.pattern}'")
+            raise ValidationError(
+                f"AgentPatternRouter: Invalid pattern '{self.pattern}'",
+                details={
+                    "requested_pattern": self.pattern,
+                    "available_patterns": list(self.agent_factories.keys())
+                }
             )
 
     def invoke(self, state: Dict[str, Any]) -> Dict[str, Any]:
