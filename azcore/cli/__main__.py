@@ -23,7 +23,10 @@ def main():
         pass
     
     # Import commands lazily to avoid importing the full azcore module
-    from azcore.cli.commands import init, run, train, validate, stats, create
+    from azcore.cli.commands import (
+        init, run, train, validate, stats, create,
+        examples, doctor, upgrade
+    )
     
     # Register command groups
     cli.add_command(init.init)
@@ -32,6 +35,9 @@ def main():
     cli.add_command(validate.validate)
     cli.add_command(stats.stats)
     cli.add_command(create.create)
+    cli.add_command(examples.examples)
+    cli.add_command(doctor.doctor)
+    cli.add_command(upgrade.upgrade)
     
     # Run CLI
     cli()

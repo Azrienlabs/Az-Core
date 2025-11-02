@@ -3,11 +3,23 @@
 import click
 import yaml
 from pathlib import Path
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 
 
-@click.command()
-@click.argument("config_file", type=click.Path(exists=True))
+@click.group()
+def validate():
+    """Validate Az-Core configuration and project files.
+    
+    Examples:
+        azcore validate config config.yml
+        azcore validate config config.yml --strict
+        azcore validate project
+    """
+    pass
+
+
+@validate.command()
+@click.argument("config_file", type=click.Path(exists=True), required=False)
 @click.option(
     "--strict",
     "-s",
@@ -20,14 +32,24 @@ from typing import Dict, Any, List
     is_flag=True,
     help="Auto-fix common issues",
 )
-def validate(config_file: str, strict: bool, fix: bool):
-    """Validate Az-Core configuration files.
+def config(config_file: Optional[str], strict: bool, fix: bool):
+    """Validate configuration files.
     
     Examples:
-        azcore validate config.yml
-        azcore validate config.yml --strict
-        azcore validate config.yml --fix
+        azcore validate config config.yml
+        azcore validate config --strict
+        azcore validate config --fix
     """
+    # Default to config.yml if not specified
+    if not config_file:
+        if Path("config.yml").exists():
+            config_file = "config.yml"
+        elif Path("configs/config.yml").exists():
+            config_file = "configs/config.yml"
+        else:
+            click.secho("Error: No config file found.", fg="red")
+            click.echo("Specify a file: azcore validate config <file>")
+            return
     from azcore.config.validation import validate_config_dict
     
     config_path = Path(config_file)
@@ -183,3 +205,90 @@ def _auto_fix_config(config: Dict[str, Any], warnings: List[str]) -> Dict[str, A
             fixed_config["llm"]["temperature"] = 0.7
     
     return fixed_config
+
+
+@validate.command()
+@click.option(
+    "--path",
+    "-p",
+    type=click.Path(exists=True),
+    default=".",
+    help="Project directory to validate",
+)
+def project(path: str):
+    """Validate Az-Core project structure.
+    
+    Examples:
+        azcore validate project
+        azcore validate project --path ./my-project
+    """
+    project_path = Path(path)
+    
+    click.secho(f"\n🔍 Validating project: {project_path.absolute()}\n", fg="cyan", bold=True)
+    click.echo("=" * 70 + "\n")
+    
+    issues = []
+    warnings = []
+    
+    # Check for required files
+    _check_project_files(project_path, issues, warnings)
+    
+    # Check for standard structure
+    _check_project_structure(project_path, issues, warnings)
+    
+    # Display results
+    click.echo("\n" + "=" * 70)
+    click.secho("Validation Results", fg="cyan", bold=True)
+    click.echo("=" * 70 + "\n")
+    
+    if not issues and not warnings:
+        click.secho("✓ Project structure is valid!", fg="green", bold=True)
+        click.echo("\nYour project follows Az-Core best practices.")
+        return
+    
+    if issues:
+        click.secho(f"Errors ({len(issues)}):", fg="red", bold=True)
+        for issue in issues:
+            click.echo(f"  ✗ {issue}")
+    
+    if warnings:
+        click.secho(f"\nWarnings ({len(warnings)}):", fg="yellow", bold=True)
+        for warning in warnings:
+            click.echo(f"  ⚠ {warning}")
+    
+    click.echo()
+
+
+def _check_project_files(project_path: Path, issues: List[str], warnings: List[str]):
+    """Check for required project files."""
+    # Check for main files
+    main_files = ["main.py", "app.py", "agent.py"]
+    has_main = any((project_path / f).exists() for f in main_files)
+    
+    if not has_main:
+        warnings.append("No main entry point found (main.py, app.py, or agent.py)")
+    
+    # Check for requirements.txt
+    if not (project_path / "requirements.txt").exists():
+        warnings.append("requirements.txt not found")
+    
+    # Check for .gitignore
+    if not (project_path / ".gitignore").exists():
+        warnings.append(".gitignore not found")
+    
+    # Check for README
+    if not (project_path / "README.md").exists():
+        warnings.append("README.md not found")
+
+
+def _check_project_structure(project_path: Path, issues: List[str], warnings: List[str]):
+    """Check for standard directory structure."""
+    recommended_dirs = {
+        "data": "Data storage directory",
+        "logs": "Logging directory",
+        "configs": "Configuration directory",
+    }
+    
+    for dir_name, description in recommended_dirs.items():
+        if not (project_path / dir_name).exists():
+            warnings.append(f"Recommended directory missing: {dir_name}/ ({description})")

@@ -77,6 +77,7 @@ def get_readme_template(project_name: str, template_type: str) -> str:
     template_desc = {
         "basic-agent": "single agent setup",
         "team-agent": "multi-agent team collaboration",
+        "modular-team": "modular team system with organized tool modules",
         "rl-agent": "RL-optimized agent with training capabilities",
         "workflow": "custom workflow orchestration",
     }
@@ -131,17 +132,55 @@ Edit `configs/config.yml` to customize:
 - Workflow parameters
 - RL training settings (if applicable)
 
+{"## Customizing Teams" if template_type == "modular-team" else ""}
+
+{"Each team is defined in a separate module in `team_modules/`:" if template_type == "modular-team" else ""}
+
+{"### Adding a New Team" if template_type == "modular-team" else ""}
+{"1. Create a new file in `team_modules/` (e.g., `my_team_tools.py`)" if template_type == "modular-team" else ""}
+{"2. Define your tools using `@tool` decorator" if template_type == "modular-team" else ""}
+{"3. Export tools list and team config" if template_type == "modular-team" else ""}
+{"4. Update `graph_builder.py` to include your team" if template_type == "modular-team" else ""}
+{"5. Add team name to supervisor members list" if template_type == "modular-team" else ""}
+
+{"### Team Module Structure" if template_type == "modular-team" else ""}
+{"```python" if template_type == "modular-team" else ""}
+{"from langchain_core.tools import tool" if template_type == "modular-team" else ""}
+
+{"@tool" if template_type == "modular-team" else ""}
+{"def my_tool(param: str) -> str:" if template_type == "modular-team" else ""}
+{'    """Tool description."""' if template_type == "modular-team" else ""}
+{"    return f'Result: {param}'" if template_type == "modular-team" else ""}
+
+{"my_team_tools = [my_tool]" if template_type == "modular-team" else ""}
+
+{"my_team_config = {" if template_type == "modular-team" else ""}
+{'    "name": "my_team",' if template_type == "modular-team" else ""}
+{'    "prompt": "Team prompt...",' if template_type == "modular-team" else ""}
+{'    "description": "Team description"' if template_type == "modular-team" else ""}
+{"}" if template_type == "modular-team" else ""}
+{"```" if template_type == "modular-team" else ""}
+
 ## Project Structure
 
 ```
 {project_name}/
 ├── main.py              # Main application entry point
+{"├── team_modules/       # Modular team tool definitions" if template_type == "modular-team" else ""}
+{"│   ├── __init__.py" if template_type == "modular-team" else ""}
+{"│   ├── camera_tools.py      # Security camera tools" if template_type == "modular-team" else ""}
+{"│   ├── document_tools.py    # Document management tools" if template_type == "modular-team" else ""}
+{"│   ├── hr_tools.py          # HR & attendance tools" if template_type == "modular-team" else ""}
+{"│   ├── mcp_teams.py         # MCP team builders" if template_type == "modular-team" else ""}
+{"│   └── graph_builder.py     # Main graph orchestrator" if template_type == "modular-team" else ""}
+{"├── database.py         # Database configuration" if template_type == "modular-team" else ""}
+{"├── uploads/            # File upload directory" if template_type == "modular-team" else ""}
 ├── configs/             # Configuration files
 │   └── config.yml
 ├── data/               # Data directory
 ├── logs/               # Log files
-{"├── rl_data/           # RL training data" if template_type == "rl-agent" else ""}
-{"├── models/            # Trained models" if template_type == "rl-agent" else ""}
+{"├── rl_data/           # RL training data" if template_type in ["rl-agent", "modular-team"] else ""}
+{"├── models/            # Trained models" if template_type in ["rl-agent", "modular-team"] else ""}
 ├── requirements.txt    # Python dependencies
 ├── .env.example        # Environment variables template
 └── README.md          # This file

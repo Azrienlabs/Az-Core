@@ -17,7 +17,10 @@ def cli():
 def main():
     """Main entry point for the CLI."""
     # Import commands lazily to avoid import errors
-    from azcore.cli.commands import init, run, train, validate, stats, create
+    from azcore.cli.commands import (
+        init, run, train, validate, stats, create,
+        examples, doctor, upgrade
+    )
     
     # Register command groups
     cli.add_command(init.init)
@@ -26,6 +29,9 @@ def main():
     cli.add_command(validate.validate)
     cli.add_command(stats.stats)
     cli.add_command(create.create)
+    cli.add_command(examples.examples)
+    cli.add_command(doctor.doctor)
+    cli.add_command(upgrade.upgrade)
     
     # Run CLI
     cli()

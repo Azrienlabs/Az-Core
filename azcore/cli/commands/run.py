@@ -6,6 +6,12 @@ import click
 import importlib.util
 from pathlib import Path
 from typing import Optional
+from azcore.cli.error_handler import (
+    handle_cli_error,
+    show_error,
+    show_warning,
+    validate_required_env_vars
+)
 
 
 @click.command()
@@ -33,6 +39,7 @@ from typing import Optional
     "-i",
     help="Input query/prompt to run",
 )
+@handle_cli_error
 def run(file: str, config: Optional[str], env: Optional[str], debug: bool, input: Optional[str]):
     """Run an Az-Core workflow or agent.
     
