@@ -41,7 +41,7 @@ azcore supports multiple agent patterns and workflows including:
 - **Caching & Performance**: Smart caching for LLM calls and conversation history
 - **Production Ready**: Comprehensive logging, error handling, and monitoring
 
-## 📖 Documentation
+## � Documentation
 
 For full documentation, see the [API reference](https://docs.azrienlabs.com/docs/overview).
 

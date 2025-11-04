@@ -22,6 +22,11 @@ from azcore.core.state import State, StateManager
 from azcore.core.supervisor import Supervisor
 from azcore.agents.team_builder import TeamBuilder
 from azcore.agents.agent_factory import AgentFactory
+from azcore.agents.enhanced_agent import (
+    create_enhanced_agent,
+    create_simple_agent,
+    BASE_ENHANCED_PROMPT,
+)
 from azcore.nodes.coordinator import CoordinatorNode
 from azcore.nodes.planner import PlannerNode
 from azcore.nodes.generator import ResponseGeneratorNode
@@ -75,6 +80,41 @@ from azcore.config import validation
 from azcore.utils import retry
 from azcore import exceptions
 
+# DeepAgents-inspired Features: Backend System & Middleware
+from azcore.backends import (
+    BackendProtocol,
+    BackendFactory,
+    WriteResult,
+    EditResult,
+    FileInfo,
+    GrepMatch,
+    StateBackend,
+    FilesystemBackend,
+    StoreBackend,
+    CompositeBackend,
+)
+from azcore.middleware import (
+    MiddlewareBase,
+    FilesystemMiddleware,
+    FILESYSTEM_TOOLS,
+    SubAgentMiddleware,
+    SubAgentSpec,
+    CompiledSubAgent,
+    TodoListMiddleware,
+    TodoItem,
+    TodoStatus,
+    AgentMemoryMiddleware,
+    SummarizationMiddleware,
+    ShellMiddleware,
+    ShellSession,
+    ResumableShellToolMiddleware,
+    HITLMiddleware,
+    ApprovalDecision,
+    ApprovalRequest,
+    ApprovalResponse,
+    PatchToolCallsMiddleware,
+)
+
 __all__ = [
     # Core classes
     "BaseAgent",
@@ -87,6 +127,11 @@ __all__ = [
     # Agent classes
     "TeamBuilder",
     "AgentFactory",
+    
+    # Enhanced Agent Factory
+    "create_enhanced_agent",
+    "create_simple_agent",
+    "BASE_ENHANCED_PROMPT",
     
     # Node classes (Original)
     "CoordinatorNode",
@@ -148,6 +193,39 @@ __all__ = [
     "exceptions",
     "validation",
     "retry",
+    
+    # Backend System
+    "BackendProtocol",
+    "BackendFactory",
+    "WriteResult",
+    "EditResult",
+    "FileInfo",
+    "GrepMatch",
+    "StateBackend",
+    "FilesystemBackend",
+    "StoreBackend",
+    "CompositeBackend",
+    
+    # Middleware System
+    "MiddlewareBase",
+    "FilesystemMiddleware",
+    "FILESYSTEM_TOOLS",
+    "SubAgentMiddleware",
+    "SubAgentSpec",
+    "CompiledSubAgent",
+    "TodoListMiddleware",
+    "TodoItem",
+    "TodoStatus",
+    "AgentMemoryMiddleware",
+    "SummarizationMiddleware",
+    "ShellMiddleware",
+    "ShellSession",
+    "ResumableShellToolMiddleware",
+    "HITLMiddleware",
+    "ApprovalDecision",
+    "ApprovalRequest",
+    "ApprovalResponse",
+    "PatchToolCallsMiddleware",
     
     # Version
     "__version__",

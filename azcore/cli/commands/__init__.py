@@ -2,7 +2,7 @@
 
 from azcore.cli.commands import (
     init, run, train, validate, stats, create,
-    examples, doctor, upgrade
+    examples, doctor, upgrade, agent
 )
 
 __all__ = [
@@ -15,4 +15,5 @@ __all__ = [
     "examples",
     "doctor",
     "upgrade",
+    "agent",
 ]

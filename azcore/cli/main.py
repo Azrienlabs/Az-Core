@@ -19,7 +19,7 @@ def main():
     # Import commands lazily to avoid import errors
     from azcore.cli.commands import (
         init, run, train, validate, stats, create,
-        examples, doctor, upgrade
+        examples, doctor, upgrade, agent
     )
     
     # Register command groups
@@ -32,6 +32,7 @@ def main():
     cli.add_command(examples.examples)
     cli.add_command(doctor.doctor)
     cli.add_command(upgrade.upgrade)
+    cli.add_command(agent.agent)
     
     # Run CLI
     cli()
