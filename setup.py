@@ -40,7 +40,7 @@ if requirements_file.exists():
 
 setup(
     name="azcore",
-    version="0.0.7",
+    version="0.0.8",
     author="Azrienlabs team",
     author_email="info@azrianlabs.com",
     description="A professional hierarchical multi-agent framework built on python.",

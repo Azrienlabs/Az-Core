@@ -7,6 +7,7 @@ It's designed to load minimal imports upfront to avoid dependency issues.
 """
 
 import sys
+from azcore import __version__
 
 def main():
     """Main CLI entry point."""
@@ -14,7 +15,7 @@ def main():
     import click
     
     @click.group()
-    @click.version_option(version="0.0.7", prog_name="azcore")
+    @click.version_option(version=__version__, prog_name="azcore")
     def cli():
         """Az-Core: Advanced AI Agent Framework with RL Integration.
         
