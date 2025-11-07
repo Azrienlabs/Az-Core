@@ -2,10 +2,11 @@
 
 import sys
 import click
+from azcore import __version__
 
 
 @click.group()
-@click.version_option(version="0.0.7", prog_name="azcore")
+@click.version_option(version=__version__, prog_name="azcore")
 def cli():
     """Az-Core: Advanced AI Agent Framework with RL Integration.
     
@@ -19,7 +20,7 @@ def main():
     # Import commands lazily to avoid import errors
     from azcore.cli.commands import (
         init, run, train, validate, stats, create,
-        examples, doctor, upgrade
+        examples, doctor, upgrade, agent
     )
     
     # Register command groups
@@ -32,6 +33,7 @@ def main():
     cli.add_command(examples.examples)
     cli.add_command(doctor.doctor)
     cli.add_command(upgrade.upgrade)
+    cli.add_command(agent.agent)
     
     # Run CLI
     cli()

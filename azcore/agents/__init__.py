@@ -10,6 +10,11 @@ from azcore.agents.team_builder import TeamBuilder
 from azcore.agents.mcp_team_builder import MCPTeamBuilder
 from azcore.agents.agent_factory import AgentFactory
 from azcore.agents.react_agent import ReactAgent
+from azcore.agents.enhanced_agent import (
+    create_enhanced_agent,
+    create_simple_agent,
+    BASE_ENHANCED_PROMPT,
+)
 
 # Advanced Agent Patterns
 from azcore.agents.self_consistency_agent import SelfConsistencyAgent
@@ -40,6 +45,11 @@ __all__ = [
     "MCPTeamBuilder",
     "AgentFactory",
     "ReactAgent",
+    
+    # Enhanced Agent Factory
+    "create_enhanced_agent",
+    "create_simple_agent",
+    "BASE_ENHANCED_PROMPT",
 
     # Advanced Agent Patterns
     "SelfConsistencyAgent",

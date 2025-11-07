@@ -20,29 +20,26 @@ from azcore.cli.templates import (
 try:
     from azcore import __version__ as AZCORE_VERSION
 except ImportError:
-    AZCORE_VERSION = "0.0.7"
+    AZCORE_VERSION = "0.0.8"
 
 
 def print_banner():
     """Print Az-Core ASCII banner."""
     banner = """
-    
-   ###    ########      ######   #######  ########  ######## 
-  ## ##        ##      ##    ## ##     ## ##     ## ##       
- ##   ##      ##       ##       ##     ## ##     ## ##       
-##     ##    ##   #### ##       ##     ## ########  ######   
-#########   ##         ##       ##     ## ##   ##   ##       
-##     ##  ##          ##    ## ##     ## ##    ##  ##       
-##     ## ########      ######   #######  ##     ## ######## 
-    
+            █████╗ ███████╗      ██████╗ ██████╗ ██████╗ ███████╗
+            ██╔══██╗╚══███╔╝     ██╔════╝██╔═══██╗██╔══██╗██╔════╝
+            ███████║  ███╔╝█████╗██║     ██║   ██║██████╔╝█████╗  
+            ██╔══██║ ███╔╝ ╚════╝██║     ██║   ██║██╔══██╗██╔══╝  
+            ██║  ██║███████╗     ╚██████╗╚██████╔╝██║  ██║███████╗
+            ╚═╝  ╚═╝╚══════╝      ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝                                   
 """
     
     # Print banner in cyan
     click.secho(banner, fg="cyan", bold=True)
     
     # Print attribution and version
-    click.secho("                           by Azrienlabs", fg="bright_black")
-    click.secho(f"                           version {AZCORE_VERSION}", fg="green")
+    click.secho("                                                  powered by Azrienlabs", fg="bright_black")
+    click.secho(f"                                                  version {AZCORE_VERSION}", fg="green")
     click.echo()
 
 
@@ -292,7 +289,7 @@ def _get_template_content(template: str, name: str) -> str:
 def _get_requirements(template: str, include_rl: bool = False) -> str:
     """Get requirements.txt content based on template."""
     base_requirements = """# Az-Core Framework
-azcore>=0.0.7
+azcore>=0.0.8
 
 # LangChain
 langchain>=0.1.0
