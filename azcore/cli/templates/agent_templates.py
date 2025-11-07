@@ -244,7 +244,7 @@ Created with Az-Core CLI
 import os
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
-from langchain.tools import Tool
+from langchain_core.tools import tool
 from azcore.agents.react_agent import ReactAgent
 from azcore.rl.rl_manager import RLManager
 from azcore.core.state import State
@@ -253,8 +253,9 @@ from azcore.core.state import State
 load_dotenv()
 
 
+@tool
 def calculator_tool(query: str) -> str:
-    """Simple calculator tool."""
+    """Simple calculator tool. Useful for mathematical calculations."""
     try:
         result = eval(query)
         return f"Result: {{result}}"
@@ -262,8 +263,9 @@ def calculator_tool(query: str) -> str:
         return f"Error: {{str(e)}}"
 
 
+@tool
 def search_tool(query: str) -> str:
-    """Simulated search tool."""
+    """Simulated search tool. Useful for searching information."""
     return f"Search results for: {{query}}"
 
 
@@ -272,27 +274,16 @@ def main():
     print("=" * 60)
     print(f"{project_name}")
     print("=" * 60 + "\\n")
-    
+
     # Initialize LLM
     llm = ChatOpenAI(
         model="gpt-4",
         temperature=0.7,
         api_key=os.getenv("OPENAI_API_KEY")
     )
-    
+
     # Define tools
-    tools = [
-        Tool(
-            name="calculator",
-            func=calculator_tool,
-            description="Useful for mathematical calculations"
-        ),
-        Tool(
-            name="search",
-            func=search_tool,
-            description="Useful for searching information"
-        )
-    ]
+    tools = [calculator_tool, search_tool]
     
     # Initialize RL Manager
     rl_manager = RLManager(

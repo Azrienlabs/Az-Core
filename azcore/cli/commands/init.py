@@ -26,20 +26,20 @@ except ImportError:
 def print_banner():
     """Print Az-Core ASCII banner."""
     banner = """
- █████╗ ███████╗      ██████╗ ██████╗ ██████╗ ███████╗
-██╔══██╗╚══███╔╝     ██╔════╝██╔═══██╗██╔══██╗██╔════╝
-███████║  ███╔╝█████╗██║     ██║   ██║██████╔╝█████╗  
-██╔══██║ ███╔╝ ╚════╝██║     ██║   ██║██╔══██╗██╔══╝  
-██║  ██║███████╗     ╚██████╗╚██████╔╝██║  ██║███████╗
-╚═╝  ╚═╝╚══════╝      ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝                                   
+            █████╗ ███████╗      ██████╗ ██████╗ ██████╗ ███████╗
+            ██╔══██╗╚══███╔╝     ██╔════╝██╔═══██╗██╔══██╗██╔════╝
+            ███████║  ███╔╝█████╗██║     ██║   ██║██████╔╝█████╗  
+            ██╔══██║ ███╔╝ ╚════╝██║     ██║   ██║██╔══██╗██╔══╝  
+            ██║  ██║███████╗     ╚██████╗╚██████╔╝██║  ██║███████╗
+            ╚═╝  ╚═╝╚══════╝      ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝                                   
 """
     
     # Print banner in cyan
     click.secho(banner, fg="cyan", bold=True)
     
     # Print attribution and version
-    click.secho("                           by Azrienlabs", fg="bright_black")
-    click.secho(f"                           version {AZCORE_VERSION}", fg="green")
+    click.secho("                                                  powered by Azrienlabs", fg="bright_black")
+    click.secho(f"                                                  version {AZCORE_VERSION}", fg="green")
     click.echo()
 
 
