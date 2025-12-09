@@ -3,7 +3,8 @@ name: Publish Python 🐍 package to PyPI
 on:
   push:
     tags:
-      - "v*"  
+      - "v*"
+  workflow_dispatch:  # Allow manual trigger from GitHub UI
 
 permissions:
   contents: read

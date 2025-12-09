@@ -39,13 +39,13 @@ if requirements_file.exists():
 
 setup(
     name="azcore",
-    version="0.0.8",
+    version="0.0.9",
     author="Azrienlabs team",
     author_email="info@azrianlabs.com",
     description="A professional hierarchical multi-agent framework built on python.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/Azrienlabs/Az-Flow",
+    url="https://github.com/Azrienlabs/Az-Core",
     license="MIT",
     packages=find_packages(exclude=["tests", "tests.*", "examples", "examples.*"]),
     classifiers=[
@@ -88,8 +88,8 @@ setup(
     zip_safe=False,
     keywords="Multi-agent agents ai framework hierarchical azcore reinforcement-learning",
     project_urls={
-        "Bug Reports": "https://github.com/Azrienlabs/Az-Flow/issues",
-        "Source": "https://github.com/Azrienlabs/Az-Flow",
-        "Documentation": "https://github.com/Azrienlabs/Az-Flow",
+        "Bug Reports": "https://github.com/Azrienlabs/Az-Core/issues",
+        "Source": "https://github.com/Azrienlabs/Az-Core",
+        "Documentation": "https://docs.azrienlabs.com/",
     },
 )
