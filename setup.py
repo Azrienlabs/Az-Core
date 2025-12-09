@@ -13,33 +13,25 @@ if readme_file.exists():
     except UnicodeDecodeError:
         long_description = readme_file.read_text(encoding="utf-8", errors="ignore")
 
-# Read requirements from requirements.txt and convert == to >= for compatibility
 requirements_file = Path(__file__).parent / "requirements.txt"
 requirements = []
 if requirements_file.exists():
-    # Try different encodings (UTF-16 LE, UTF-8 with BOM, UTF-8)
-    for encoding in ["utf-16-le", "utf-16", "utf-8-sig", "utf-8"]:
-        try:
-            with open(requirements_file, encoding=encoding, errors="ignore") as f:
-                for line in f:
-                    line = line.strip()
-                    # Remove BOM if present
-                    line = line.lstrip('\ufeff')
-                    # Skip empty lines and comments
-                    if not line or line.startswith("#"):
-                        continue
-                    # Convert exact version pins (==) to minimum version (>=) for better compatibility
-                    if "==" in line:
-                        line = line.replace("==", ">=")
-                    requirements.append(line)
-            break  # Successfully read, exit loop
-        except (UnicodeDecodeError, UnicodeError):
-            requirements = []  # Reset and try next encoding
-            continue
+    try:
+        with open(requirements_file, encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line or line.startswith("#"):
+                    continue
+                if "==" in line:
+                    line = line.replace("==", ">=")
+                requirements.append(line)
+    except (UnicodeDecodeError, UnicodeError, IOError) as e:
+        print(f"Warning: Could not read requirements.txt: {e}")
+        requirements = []
 
 setup(
     name="azcore",
-    version="0.0.9",
+    version="0.0.10",
     author="Azrienlabs team",
     author_email="info@azrianlabs.com",
     description="A professional hierarchical multi-agent framework built on python.",

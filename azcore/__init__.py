@@ -5,16 +5,15 @@ A comprehensive framework for building hierarchical multi-agent systems with Lan
 featuring coordinator-planner-supervisor architecture, team management, and flexible
 agent orchestration with improved error handling and validation.
 
-Version: 0.0.9
+Version: 0.0.10
 Author: Arc  Team
 License: MIT
 """
 
-# Suppress LangGraph deprecation warnings (internal library warnings)
 import warnings
 warnings.filterwarnings('ignore', category=DeprecationWarning, module='langgraph')
 
-__version__ = "0.0.9"
+__version__ = "0.0.10"
 __author__ = "Arc Team"
 
 from azcore.core.base import BaseAgent, BaseTeam, BaseNode
